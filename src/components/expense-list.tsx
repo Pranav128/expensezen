@@ -116,7 +116,6 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
   }, [currentPage, totalPages]);
 
   useEffect(() => {
-    // Set initial sorting configuration on component mount.
     setSortConfig({ key: 'date', direction: 'desc' });
   }, []);
 
@@ -134,7 +133,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
   const clearFilters = () => {
     setFilter('');
     setCategoryFilter('all');
-    setDateRange(undefined); // Clear date range to show all
+    setDateRange(undefined);
     setSortConfig({ key: 'date', direction: 'desc' });
   };
 
