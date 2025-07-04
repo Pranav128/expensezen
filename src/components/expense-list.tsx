@@ -39,11 +39,13 @@ import {
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
+  AlertDialogOverlay,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import ExpenseForm from './expense-form';
+
 
 interface ExpenseListProps {
   expenses: Expense[];
@@ -188,7 +190,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
                 <TableRow>
                   <TableHead className="cursor-pointer hover:bg-secondary" onClick={() => handleSort('description')}>Description{renderSortArrow('description')}</TableHead>
                   <TableHead className="cursor-pointer hover:bg-secondary" onClick={() => handleSort('category')}>Category{renderSortArrow('category')}</TableHead>
-                  <TableHead className="text-right cursor-pointer hover:bg-secondary" onClick={() => handleSort('amount')}>Amount{renderSortArrow('amount')}</TableHead>
+                  <TableHead className="text-right cursor-pointer hover:bg-secondary" onClick={() => handleSort('amount')}>Amount (₹){renderSortArrow('amount')}</TableHead>
                   <TableHead className="text-right cursor-pointer hover:bg-secondary" onClick={() => handleSort('date')}>Date{renderSortArrow('date')}</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
@@ -209,7 +211,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
                     <TableRow key={expense._id} className="hover:bg-secondary/50">
                       <TableCell className="font-medium max-w-[200px] truncate">{expense.description}</TableCell>
                       <TableCell><span className="px-2 py-1 bg-secondary rounded-full text-xs">{expense.category}</span></TableCell>
-                      <TableCell className="text-right font-mono">₹{expense.amount.toFixed(2)}</TableCell>
+                      <TableCell className="text-right font-mono">{expense.amount.toFixed(2)}</TableCell>
                       <TableCell className="text-right text-muted-foreground">{format(new Date(expense.date.replace(/-/g, '/')), "MMM dd, yyyy")}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-1">
@@ -218,6 +220,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
                           </Button>
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
+
                               <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive">
                                 <Trash2 className="h-4 w-4" />
                               </Button>

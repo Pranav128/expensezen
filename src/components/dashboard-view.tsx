@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Added "use client" directive
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import type { Expense } from '@/types';
@@ -10,21 +10,31 @@ import { addExpense, fetchExpenses, updateExpense, deleteExpense } from '@/lib/u
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-import AccountDropdown from './account-dropdown';
+
+// Define the pagination state
+const PAGE_SIZE = 10; // Number of expenses per page
+
 
 export default function DashboardView() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1); // Current page number
+  const [hasMore, setHasMore] = useState(true); // Indicates if there are more pages to load
+
   const { token, logout } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
 
   const loadExpenses = useCallback(async () => {
-    if (token) {
+    if (token && hasMore) { // Only load if there are more pages
       setIsLoading(true);
       try {
-        const data = await fetchExpenses(token);
-        setExpenses(data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+        const data: Expense[] = await fetchExpenses(token, page, PAGE_SIZE); // Fetch expenses with pagination
+        if (data.length < PAGE_SIZE) {
+          setHasMore(false); // No more pages
+        }
+        setExpenses(prevExpenses => [...prevExpenses, ...data].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+        setPage(prevPage => prevPage + 1); // Increment page number for next load
       } catch (error) {
         console.error("Failed to fetch expenses:", error);
         logout();
@@ -32,6 +42,8 @@ export default function DashboardView() {
       } finally {
         setIsLoading(false);
       }
+    } else if (!token) {
+      setIsLoading(false); // Stop loading if no token
     }
   }, [token, logout, router]);
 
@@ -88,6 +100,14 @@ export default function DashboardView() {
   const allCategories = useMemo(() => {
     return [...new Set(expenses.map(e => e.category))].sort();
   }, [expenses]);
+
+  // Function to load more expenses when scrolling
+  const handleScroll = useCallback(() => {
+    if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 100 && !isLoading && hasMore) {
+      loadExpenses();
+    }
+  }, [isLoading, hasMore, loadExpenses]);
+
 
   return (
     <main className="flex-1 space-y-6 p-4 sm:p-6 md:p-8">
