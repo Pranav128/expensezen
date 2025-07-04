@@ -41,58 +41,30 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormValues) => {
     setIsSubmitting(true);
-    // try {
-    //   const response = await fetch('http://localhost:8080/api/auth/login', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(data),
-    //   });
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
 
-    //   const responseData = await response.json();
+      const responseData = await response.json();
 
-    //   if (!response.ok) {
-    //     throw new Error(responseData.message || 'Login failed');
-    //   }
-
-    //   login(responseData.token);
-    //   router.push('/');
-    // } catch (error: any) {
-    //   toast({
-    //     title: 'Login Failed',
-    //     description: error.message,
-    //     variant: 'destructive',
-    //   });
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
-
-    // Mock API call for demo
-    setTimeout(() => {
-      if (data.email === 'demo@example.com' && data.password === 'password') {
-        // Create a mock JWT token
-        const header = { alg: 'HS256', typ: 'JWT' };
-        const payload = { 
-          id: 'clxzk15q9000078mna86hf9s4', 
-          email: 'demo@example.com', 
-          // Expires in 1 hour
-          exp: Math.floor(Date.now() / 1000) + (60 * 60) 
-        };
-        // Use window.btoa for client-side base64 encoding
-        const encodedHeader = window.btoa(JSON.stringify(header));
-        const encodedPayload = window.btoa(JSON.stringify(payload));
-        const mockToken = `${encodedHeader}.${encodedPayload}.fakesignature`;
-
-        login(mockToken);
-        router.push('/');
-      } else {
-        toast({
-          title: 'Login Failed',
-          description: 'Invalid credentials. Use demo@example.com and password.',
-          variant: 'destructive',
-        });
+      if (!response.ok) {
+        throw new Error(responseData.message || 'Login failed');
       }
+
+      login(responseData.token);
+      router.push('/');
+    } catch (error: any) {
+      toast({
+        title: 'Login Failed',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
   
   if (isAuthLoading || token) {
@@ -108,7 +80,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl font-headline">Login</CardTitle>
-          <CardDescription>Use <code className="font-mono p-1 bg-muted rounded">demo@example.com</code> and <code className="font-mono p-1 bg-muted rounded">password</code> to login.</CardDescription>
+          <CardDescription>Enter your credentials to access your account.</CardDescription>
         </CardHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>

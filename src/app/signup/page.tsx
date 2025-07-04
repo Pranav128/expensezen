@@ -24,7 +24,7 @@ type SignupFormValues = z.infer<typeof signupSchema>;
 
 export default function SignupPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login, token, isLoading: isAuthLoading } = useAuth();
+  const { token, isLoading: isAuthLoading } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -41,53 +41,33 @@ export default function SignupPage() {
 
   const onSubmit = async (data: SignupFormValues) => {
     setIsSubmitting(true);
-    // try {
-    //   const response = await fetch('http://localhost:8080/api/auth/signup', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(data),
-    //   });
-      
-    //   const responseData = await response.json();
-
-    //   if (!response.ok) {
-    //     throw new Error(responseData.message || 'Signup failed');
-    //   }
-
-    //   login(responseData.token);
-    //   router.push('/');
-    // } catch (error: any) {
-    //   toast({
-    //     title: 'Signup Failed',
-    //     description: error.message,
-    //     variant: 'destructive',
-    //   });
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
-
-    // Mock API call for demo
-    setTimeout(() => {
-      toast({
-        title: 'Demo Mode',
-        description: "Signing you in with a demo account.",
+    try {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
       });
-      // Create a mock JWT token
-      const header = { alg: 'HS256', typ: 'JWT' };
-      const payload = { 
-        id: 'clxzk15q9000078mna86hf9s4', 
-        email: 'demo@example.com', 
-        // Expires in 1 hour
-        exp: Math.floor(Date.now() / 1000) + (60 * 60) 
-      };
-      const encodedHeader = window.btoa(JSON.stringify(header));
-      const encodedPayload = window.btoa(JSON.stringify(payload));
-      const mockToken = `${encodedHeader}.${encodedPayload}.fakesignature`;
+      
+      const responseData = await response.json();
 
-      login(mockToken);
-      router.push('/');
+      if (!response.ok) {
+        throw new Error(responseData.message || 'Signup failed');
+      }
+      
+      toast({
+          title: 'Signup Successful',
+          description: "Your account has been created. Please login to continue.",
+      });
+      router.push('/login');
+    } catch (error: any) {
+      toast({
+        title: 'Signup Failed',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
   
   if (isAuthLoading || token) {
@@ -103,7 +83,7 @@ export default function SignupPage() {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl font-headline">Sign Up</CardTitle>
-          <CardDescription>For this demo, any signup will log you in with a sample account.</CardDescription>
+          <CardDescription>Create an account to start tracking your expenses.</CardDescription>
         </CardHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
