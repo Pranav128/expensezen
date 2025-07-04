@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuth } from '@/hooks/use-auth';
@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Save } from 'lucide-react';
 
 const updateUserSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
@@ -24,32 +24,44 @@ interface UpdateUserFormProps {
 export default function UpdateUserForm({ onFinished }: UpdateUserFormProps) {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const form = useForm<UpdateUserFormValues>({
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
       email: user?.email || '',
     },
+    mode: "onChange" // Enable real-time validation and watching
   });
 
-  const onSubmit = (data: UpdateUserFormValues) => {
-    setIsSubmitting(true);
-    
-    // Mock API call for demo
-    setTimeout(() => {
-        toast({
-            title: 'Profile Updated',
-            description: 'Your profile has been updated successfully (in demo mode).',
-        });
-        setIsSubmitting(false);
-        onFinished();
-    }, 1000);
+  const watchedFields = useWatch({ control: form.control });
+
+  const handleSave = async (data: UpdateUserFormValues) => {
+    setIsSaving(true);
+    try {
+      // Replace with your actual API call to update user
+      console.log("Saving user data:", data);
+      // Example: const response = await fetch('/api/update-user', { method: 'PUT', body: JSON.stringify(data) });
+      // Handle response...
+      toast({
+        title: 'Profile Updated',
+        description: 'Your profile has been updated successfully.',
+      });
+      onFinished();
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to update profile.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form className="space-y-6">
         <FormField
           control={form.control}
           name="email"
@@ -63,10 +75,12 @@ export default function UpdateUserForm({ onFinished }: UpdateUserFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {form.formState.isDirty && (
+          <Button type="button" onClick={form.handleSubmit(handleSave)} className="w-full" disabled={isSaving || !form.formState.isValid}>
+            {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Save Changes
-        </Button>
+          </Button>
+        )}
       </form>
     </Form>
   );

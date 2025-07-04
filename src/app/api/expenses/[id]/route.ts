@@ -18,7 +18,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
     const { description, amount, category, date } = await request.json();
     const updatedExpense = await Expense.findOneAndUpdate(
-      { _id: params.id, userId },
+      { _id: await params.id, userId },
       { description, amount, category, date },
       { new: true }
     );
@@ -42,7 +42,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
 
     await dbConnect();
 
-    const deletedExpense = await Expense.findOneAndDelete({ _id: params.id, userId });
+    const deletedExpense = await Expense.findOneAndDelete({ _id: await params.id, userId });
 
     if (!deletedExpense) {
       return NextResponse.json({ message: 'Expense not found or user not authorized' }, { status: 404 });
