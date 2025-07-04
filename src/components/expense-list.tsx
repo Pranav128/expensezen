@@ -199,7 +199,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
               <TableBody>
                 {isLoading ? (
                   Array.from({ length: 10 }).map((_, i) => (
-                    <TableRow key={i}>
+ <TableRow key={i}>
                       <TableCell><Skeleton className="h-5 w-32" /></TableCell>
                       <TableCell><Skeleton className="h-5 w-24" /></TableCell>
                       <TableCell className="text-right"><Skeleton className="h-5 w-16 float-right" /></TableCell>

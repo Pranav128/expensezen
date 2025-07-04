@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo } from 'react';
-import type { Expense } from '@/types';
+import { useMemo, useState } from 'react';
+import type { Expense, ExpenseCategory } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from '@/components/ui/chart';
 import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
@@ -9,6 +9,12 @@ import { BarChart2, PieChart as PieChartIcon, TrendingUp, IndianRupee } from 'lu
 import { Skeleton } from './ui/skeleton';
 
 interface ExpenseDashboardProps {
+  expenses: Expense[];
+  isLoading: boolean;
+}
+
+interface FilterOptions {
+  startDate: string | null;
   expenses: Expense[];
   isLoading: boolean;
 }
@@ -22,10 +28,28 @@ const chartColors = [
 ];
 
 export default function ExpenseDashboard({ expenses, isLoading }: ExpenseDashboardProps) {
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+    startDate: null,
+    endDate: null,
+    category: 'All',
+  });
+  const [isExporting, setIsExporting] = useState(false);
+
   const { categoryData, monthlyData, totalExpenses, averageExpense } = useMemo(() => {
-    if (!expenses.length) return { categoryData: [], monthlyData: [], totalExpenses: 0, averageExpense: 0 };
-    
-    const categoryTotals = expenses.reduce((acc, expense) => {
+    const filteredExpenses = expenses.filter((expense) => {
+      const expenseDate = new Date(expense.date);
+      const startDate = filterOptions.startDate ? new Date(filterOptions.startDate) : null;
+      const endDate = filterOptions.endDate ? new Date(filterOptions.endDate) : null;
+
+      const dateFilter = (!startDate || expenseDate >= startDate) && (!endDate || expenseDate <= endDate);
+      const categoryFilter = filterOptions.category === 'All' || expense.category === filterOptions.category;
+
+      return dateFilter && categoryFilter;
+    });
+
+    if (!filteredExpenses.length) return { categoryData: [], monthlyData: [], totalExpenses: 0, averageExpense: 0 };
+
+    const categoryTotals = filteredExpenses.reduce((acc, expense) => {
       acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
       return acc;
     }, {} as Record<string, number>);
@@ -34,18 +58,17 @@ export default function ExpenseDashboard({ expenses, isLoading }: ExpenseDashboa
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value);
 
-    const monthlyTotals = expenses.reduce((acc, expense) => {
+    const monthlyTotals = filteredExpenses.reduce((acc, expense) => {
       const month = new Date(expense.date).toLocaleString('default', { month: 'short' });
       acc[month] = (acc[month] || 0) + expense.amount;
       return acc;
     }, {} as Record<string, number>);
-    
+
     const monthOrder = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    
+
     const monthlyData = Object.entries(monthlyTotals)
       .map(([name, total]) => ({ name, total }))
       .sort((a, b) => monthOrder.indexOf(a.name) - monthOrder.indexOf(b.name));
-      
     const totalExpenses = expenses.reduce((acc, curr) => acc + curr.amount, 0);
     const averageExpense = expenses.length ? totalExpenses / expenses.length : 0;
       
@@ -62,6 +85,30 @@ export default function ExpenseDashboard({ expenses, isLoading }: ExpenseDashboa
     });
     return config;
   }, [categoryData]);
+
+  const handleExport = () => {
+    setIsExporting(true);
+    const filteredExpenses = expenses.filter((expense) => {
+      const expenseDate = new Date(expense.date);
+      const startDate = filterOptions.startDate ? new Date(filterOptions.startDate) : null;
+      const endDate = filterOptions.endDate ? new Date(filterOptions.endDate) : null;
+
+      const dateFilter = (!startDate || expenseDate >= startDate) && (!endDate || expenseDate <= endDate);
+      const categoryFilter = filterOptions.category === 'All' || expense.category === filterOptions.category;
+
+      return dateFilter && categoryFilter;
+    });
+
+    const csvHeader = 'Date,Description,Amount,Category\n';
+    const csvBody = filteredExpenses.map(expense =>
+      `${expense.date},"${expense.description.replace(/"/g, '""')}",${expense.amount},${expense.category}`
+    ).join('\n');
+    const csvContent = csvHeader + csvBody;
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    window.open(url);
+    setIsExporting(false);
+  };
 
   if (isLoading) {
     return (
@@ -133,6 +180,58 @@ export default function ExpenseDashboard({ expenses, isLoading }: ExpenseDashboa
               <Bar dataKey="total" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ChartContainer>
+        </CardContent>
+      </Card>
+
+      {/* Export Data Section */}
+      <Card className="md:col-span-2 lg:col-span-4">
+        <CardHeader>
+          <CardTitle className="text-sm font-medium font-headline">Export Data</CardTitle>
+          <CardDescription>Export your expense data with optional filters.</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col md:flex-row gap-4">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="startDate" className="text-sm font-medium">Start Date:</label>
+            <input
+              type="date"
+              id="startDate"
+              value={filterOptions.startDate || ''}
+              onChange={(e) => setFilterOptions({ ...filterOptions, startDate: e.target.value })}
+              className="border p-2 rounded-md text-sm"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="endDate" className="text-sm font-medium">End Date:</label>
+            <input
+              type="date"
+              id="endDate"
+              value={filterOptions.endDate || ''}
+              onChange={(e) => setFilterOptions({ ...filterOptions, endDate: e.target.value })}
+              className="border p-2 rounded-md text-sm"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="category" className="text-sm font-medium">Category:</label>
+            <select
+              id="category"
+              value={filterOptions.category}
+              onChange={(e) => setFilterOptions({ ...filterOptions, category: e.target.value as ExpenseCategory | 'All' })}
+              className="border p-2 rounded-md text-sm"
+            >
+              <option value="All">All Categories</option>
+              <option value="Housing">Housing</option>
+              <option value="Transportation">Transportation</option>
+              <option value="Food">Food</option>
+              <option value="Utilities">Utilities</option>
+              <option value="Insurance">Insurance</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Saving & Investing">Saving & Investing</option>
+              <option value="Personal Spending">Personal Spending</option>
+            </select>
+          </div>
+          <button onClick={handleExport} disabled={isExporting} className="self-end px-4 py-2 bg-blue-500 text-white rounded-md text-sm disabled:opacity-50">
+            {isExporting ? 'Exporting...' : 'Export to CSV'}
+          </button>
         </CardContent>
       </Card>
     </div>
