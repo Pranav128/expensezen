@@ -58,13 +58,12 @@ type SortKey = keyof Expense | '';
 export default function ExpenseList({ expenses, isLoading, categories, onUpdateExpense, onDeleteExpense }: ExpenseListProps) {
   const [filter, setFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-  });
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' }>({ key: '', direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' }>({ key: 'date', direction: 'desc' });
 
 
   const handleSort = (key: SortKey) => {
@@ -81,7 +80,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
       const categoryMatch = categoryFilter === 'all' || expense.category === categoryFilter;
       const date = new Date(expense.date);
       date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
-      const dateMatch = dateRange?.from && dateRange?.to ? isAfter(date, startOfDay(dateRange.from)) && isBefore(date, startOfDay(addDays(dateRange.to, 1))) : true;
+      const dateMatch = !dateRange?.from || (isAfter(date, startOfDay(dateRange.from)) && isBefore(date, startOfDay(addDays(dateRange.to || dateRange.from, 1))));
       return descriptionMatch && categoryMatch && dateMatch;
     });
 
@@ -117,13 +116,9 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
   }, [currentPage, totalPages]);
 
   useEffect(() => {
-    // Set initial date range to undefined to display all transactions
-    // when the component mounts for the first time.
-    if (dateRange === undefined) {
- setDateRange(undefined);
-    }
+    // Set initial sorting configuration on component mount.
     setSortConfig({ key: 'date', direction: 'desc' });
-  };
+  }, []);
 
   const handleEdit = (expense: Expense) => {
     setEditingExpense(expense);
@@ -139,7 +134,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
   const clearFilters = () => {
     setFilter('');
     setCategoryFilter('all');
- setDateRange(undefined); // Clear date range to show all
+    setDateRange(undefined); // Clear date range to show all
     setSortConfig({ key: 'date', direction: 'desc' });
   };
 
@@ -181,7 +176,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
- <Calendar mode="range" selected={dateRange} onSelect={setDateRange} numberOfMonths={2} />
+                <Calendar mode="range" selected={dateRange} onSelect={setDateRange} numberOfMonths={2} />
               </PopoverContent>
             </Popover>
             <Button variant="ghost" size="icon" onClick={clearFilters}><FilterX className="h-4 w-4" /></Button>
@@ -202,7 +197,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
               <TableBody>
                 {isLoading ? (
                   Array.from({ length: 10 }).map((_, i) => (
- <TableRow key={i}>
+                    <TableRow key={i}>
                       <TableCell><Skeleton className="h-5 w-32" /></TableCell>
                       <TableCell><Skeleton className="h-5 w-24" /></TableCell>
                       <TableCell className="text-right"><Skeleton className="h-5 w-16 float-right" /></TableCell>
