@@ -111,11 +111,6 @@ export default function AccountDropdown() {
                   <span>Export Data</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => router.push("/settings")}
-                > {/* Replace with appropriate icon */}
-                  <span>Settings</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
                   onClick={() => router.push("/help-support")}
                 >
                   <FileText className="mr-2 h-4 w-4" /> {/* Replace with appropriate icon */}
@@ -124,9 +119,6 @@ export default function AccountDropdown() {
                 <DropdownMenuItem
                   onSelect={() => router.push("/change-password")}>
                   <span>Change Password</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
- onSelect={() => router.push("/activity-log")}>
  <span>View Activity Log</span>
                 </DropdownMenuItem>
                 {/* Add other important items here if needed */}
