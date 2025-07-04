@@ -1,6 +1,7 @@
 import dbConnect from '@/lib/db';
 import Expense from '@/models/expense';
 import { NextRequest, NextResponse } from 'next/server';
+import { format } from 'date-fns';
 import { getDataFromToken } from '@/helpers/getDataFromToken';
 
 export async function POST(request: NextRequest) {
@@ -9,7 +10,7 @@ export async function POST(request: NextRequest) {
     if (!userId) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
-
+    
     await dbConnect();
 
     const { description, amount, category, date } = await request.json();
@@ -23,6 +24,51 @@ export async function POST(request: NextRequest) {
 
     const savedExpense = await newExpense.save();
     return NextResponse.json(savedExpense, { status: 201 });
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const userId = getDataFromToken(request);
+    if (!userId) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    await dbConnect();
+
+    const { searchParams } = new URL(request.url);
+    const startDate = searchParams.get('startDate');
+    const endDate = searchParams.get('endDate');
+    const category = searchParams.get('category');
+
+    const filter: any = { userId };
+    if (startDate && endDate) {
+      filter.date = {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate),
+      };
+    }
+    if (category && category !== 'All') {
+      filter.category = category;
+    }
+
+    const expenses = await Expense.find(filter);
+
+    // Generate CSV
+    const csvHeader = ['Description', 'Amount', 'Category', 'Date'].join(',');
+    const csvRows = expenses.map(expense =>
+      [expense.description, expense.amount, expense.category, format(new Date(expense.date), 'yyyy-MM-dd')].join(',')
+    );
+    const csvData = [csvHeader, ...csvRows].join('\n');
+
+    return new NextResponse(csvData, {
+      headers: {
+        'Content-Type': 'text/csv',
+        'Content-Disposition': 'attachment; filename="expenses.csv"',
+      },
+    });
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
