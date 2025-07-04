@@ -11,7 +11,6 @@ const ContactPage: React.FC = () => {
         {/* Placeholder for contact information or a contact form */}
         <div className="mt-4">
           {/* Example Contact Form (basic structure) */}
-          {/*
           <form>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
@@ -55,7 +54,6 @@ const ContactPage: React.FC = () => {
               </button>
             </div>
           </form>
-          */}
         </div>
       </div>
     </div>
