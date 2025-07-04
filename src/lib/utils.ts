@@ -11,6 +11,7 @@ async function handleResponse(response: Response) {
   if (!response.ok) {
     throw new Error(data.message || 'An API error occurred');
   }
+  console.log('API Response:', data);
   return data;
 }
 
@@ -21,7 +22,7 @@ export async function fetchExpenses(token: string): Promise<Expense[]> {
   return handleResponse(response);
 }
 
-export async function addExpense(expense: Omit<Expense, 'id'>, token: string): Promise<Expense> {
+export async function addExpense(expense: Omit<Expense, '_id'>, token: string): Promise<Expense> {
   const response = await fetch('/api/expenses', {
     method: 'POST',
     headers: {
@@ -34,7 +35,7 @@ export async function addExpense(expense: Omit<Expense, 'id'>, token: string): P
 }
 
 export async function updateExpense(expense: Expense, token: string): Promise<Expense> {
-  const response = await fetch(`/api/expenses/${expense.id}`, {
+  const response = await fetch(`/api/expenses/${expense._id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

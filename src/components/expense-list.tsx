@@ -134,7 +134,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
     setIsEditDialogOpen(true);
   };
   
-  const handleUpdateSubmit = (data: Omit<Expense, 'id'> | Expense) => {
+  const handleUpdateSubmit = (data: Omit<Expense, '_id'> | Expense) => {
     onUpdateExpense(data as Expense);
     setIsEditDialogOpen(false);
     setEditingExpense(null);
@@ -209,7 +209,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
                   ))
                 ) : paginatedExpenses.length > 0 ? (
                   paginatedExpenses.map((expense) => (
-                    <TableRow key={expense.id} className="hover:bg-secondary/50">
+                    <TableRow key={expense._id} className="hover:bg-secondary/50">
                       <TableCell className="font-medium max-w-[200px] truncate">{expense.description}</TableCell>
                       <TableCell><span className="px-2 py-1 bg-secondary rounded-full text-xs">{expense.category}</span></TableCell>
                       <TableCell className="text-right font-mono">₹{expense.amount.toFixed(2)}</TableCell>
@@ -234,7 +234,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
                               </AlertDialogHeader>
                               <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => onDeleteExpense(expense.id)}>Delete</AlertDialogAction>
+                                <AlertDialogAction onClick={() => onDeleteExpense(expense._id)}>Delete</AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>
                           </AlertDialog>

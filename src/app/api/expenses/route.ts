@@ -56,9 +56,6 @@ export async function GET(request: NextRequest) {
     const expenses = await Expense.find(filter);
     return NextResponse.json(expenses);
 
-    await dbConnect();
-    const expenses = await Expense.find({ userId });
-    return NextResponse.json(expenses);
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }

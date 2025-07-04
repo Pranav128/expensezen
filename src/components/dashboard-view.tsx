@@ -39,7 +39,7 @@ export default function DashboardView() {
     loadExpenses();
   }, [loadExpenses]);
 
-  const handleAddExpense = async (newExpenseData: Omit<Expense, 'id'>) => {
+  const handleAddExpense = async (newExpenseData: Omit<Expense, '_id'>) => {
     if (!token) {
       console.error("No auth token found");
       return;
@@ -61,7 +61,7 @@ export default function DashboardView() {
     }
     try {
         const updatedExpense = await updateExpense(updatedExpenseData, token);
-        setExpenses(prev => prev.map(exp => exp.id === updatedExpense.id ? updatedExpense : exp).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+        setExpenses(prev => prev.map(exp => exp._id === updatedExpense._id ? updatedExpense : exp).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
         toast({ title: "Expense Updated", description: `"${updatedExpense.description}" has been updated.` });
     } catch (error) {
         console.error("Failed to update expense:", error);
@@ -74,10 +74,10 @@ export default function DashboardView() {
         console.error("No auth token found");
         return;
     }
-    const expenseToDelete = expenses.find(e => e.id === expenseId);
+    const expenseToDelete = expenses.find(e => e._id === expenseId);
     try {
         await deleteExpense(expenseId, token);
-        setExpenses(prev => prev.filter(exp => exp.id !== expenseId));
+        setExpenses(prev => prev.filter(exp => exp._id !== expenseId));
         toast({ title: "Expense Deleted", description: `"${expenseToDelete?.description}" has been deleted.` });
     } catch (error) {
         console.error("Failed to delete expense:", error);

@@ -95,9 +95,11 @@ export default function ExpenseForm({ onSubmit, expenseToEdit, onFinished }: Exp
 
   function onFormSubmit(values: ExpenseFormValues) {
     if (isEditing && expenseToEdit) {
-      onSubmit({ ...values, id: expenseToEdit.id, date: format(values.date, 'yyyy-MM-dd') });
+      onSubmit({ ...values, _id: expenseToEdit._id, date: format(values.date, 'yyyy-MM-dd') });
     } else {
-      onSubmit({ ...values, date: format(values.date, 'yyyy-MM-dd') });
+      onSubmit({
+        ...values, date: format(values.date, 'yyyy-MM-dd'), _id: ''
+     });
       form.reset();
       form.setValue("date", new Date());
     }
