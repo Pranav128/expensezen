@@ -11,7 +11,6 @@ async function handleResponse(response: Response) {
   if (!response.ok) {
     throw new Error(data.message || 'An API error occurred');
   }
-  console.log('API Response:', data);
   return data;
 }
 

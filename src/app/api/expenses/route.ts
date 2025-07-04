@@ -54,7 +54,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Optimize query: select only necessary fields
-    const expenses = await Expense.find(filter).select('description amount category date');
+    // const expenses = await Expense.find(filter).select('description amount category date');
+    const expenses = await Expense.find(filter);
     return NextResponse.json(expenses);
 
   } catch (error: any) {

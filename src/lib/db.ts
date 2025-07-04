@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = "mongodb+srv://mayur:342CIIGvWvYqOCts@democluster.pzdiz.mongodb.net/?retryWrites=true&w=majority&appName=democluster";
+const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
   throw new Error(
     'Please define the MONGODB_URI environment variable inside .env'
@@ -19,7 +19,6 @@ if (!cached) {
 }
 
 async function dbConnect() {
-  console.log(MONGODB_URI);
   if (cached.conn) {
     return cached.conn;
   }
