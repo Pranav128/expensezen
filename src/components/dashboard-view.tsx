@@ -6,16 +6,18 @@ import ExpenseDashboard from '@/components/expense-dashboard';
 import ExpenseForm from '@/components/expense-form';
 import ExpenseList from '@/components/expense-list';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { addExpense, fetchExpenses } from '@/lib/utils';
+import { addExpense, fetchExpenses, updateExpense, deleteExpense } from '@/lib/utils';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 export default function DashboardView() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { token, user, logout } = useAuth();
   const router = useRouter();
+  const { toast } = useToast();
 
   const loadExpenses = useCallback(async () => {
     if (token) {
@@ -45,8 +47,41 @@ export default function DashboardView() {
     try {
       const newExpense = await addExpense(newExpenseData, token);
       setExpenses(prev => [newExpense, ...prev].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+      toast({ title: "Expense Added", description: `"${newExpense.description}" has been added.` });
     } catch (error) {
       console.error("Failed to add expense:", error);
+      toast({ title: "Error", description: "Failed to add expense.", variant: "destructive" });
+    }
+  };
+  
+  const handleUpdateExpense = async (updatedExpenseData: Expense) => {
+    if (!token) {
+        console.error("No auth token found");
+        return;
+    }
+    try {
+        const updatedExpense = await updateExpense(updatedExpenseData, token);
+        setExpenses(prev => prev.map(exp => exp.id === updatedExpense.id ? updatedExpense : exp).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+        toast({ title: "Expense Updated", description: `"${updatedExpense.description}" has been updated.` });
+    } catch (error) {
+        console.error("Failed to update expense:", error);
+        toast({ title: "Error", description: "Failed to update expense.", variant: "destructive" });
+    }
+  };
+
+  const handleDeleteExpense = async (expenseId: string) => {
+    if (!token) {
+        console.error("No auth token found");
+        return;
+    }
+    const expenseToDelete = expenses.find(e => e.id === expenseId);
+    try {
+        await deleteExpense(expenseId, token);
+        setExpenses(prev => prev.filter(exp => exp.id !== expenseId));
+        toast({ title: "Expense Deleted", description: `"${expenseToDelete?.description}" has been deleted.` });
+    } catch (error) {
+        console.error("Failed to delete expense:", error);
+        toast({ title: "Error", description: "Failed to delete expense.", variant: "destructive" });
     }
   };
   
@@ -80,7 +115,13 @@ export default function DashboardView() {
             </Card>
         </div>
         <div className="lg:col-span-3">
-            <ExpenseList expenses={expenses} isLoading={isLoading} categories={allCategories} />
+            <ExpenseList 
+              expenses={expenses} 
+              isLoading={isLoading} 
+              categories={allCategories}
+              onUpdateExpense={handleUpdateExpense}
+              onDeleteExpense={handleDeleteExpense}
+            />
         </div>
       </div>
     </main>

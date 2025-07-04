@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -26,12 +26,15 @@ const formSchema = z.object({
 type ExpenseFormValues = z.infer<typeof formSchema>;
 
 interface ExpenseFormProps {
-  onSubmit: (data: Omit<Expense, 'id'>) => void;
+  onSubmit: (data: Omit<Expense, 'id'> | Expense) => void;
+  expenseToEdit?: Expense | null;
+  onFinished?: () => void;
 }
 
-export default function ExpenseForm({ onSubmit }: ExpenseFormProps) {
+export default function ExpenseForm({ onSubmit, expenseToEdit, onFinished }: ExpenseFormProps) {
   const [isSuggesting, setIsSuggesting] = useState(false);
   const { toast } = useToast();
+  const isEditing = !!expenseToEdit;
 
   const form = useForm<ExpenseFormValues>({
     resolver: zodResolver(formSchema),
@@ -42,6 +45,24 @@ export default function ExpenseForm({ onSubmit }: ExpenseFormProps) {
       date: new Date(),
     },
   });
+
+  useEffect(() => {
+    if (isEditing && expenseToEdit) {
+      form.reset({
+        description: expenseToEdit.description,
+        amount: expenseToEdit.amount,
+        category: expenseToEdit.category,
+        date: new Date(expenseToEdit.date.replace(/-/g, '/')) // Use safer date parsing
+      });
+    } else {
+        form.reset({
+            description: "",
+            amount: undefined,
+            category: "",
+            date: new Date(),
+        });
+    }
+  }, [expenseToEdit, form, isEditing]);
 
   async function handleSuggestCategory() {
     const description = form.getValues("description");
@@ -73,9 +94,16 @@ export default function ExpenseForm({ onSubmit }: ExpenseFormProps) {
   }
 
   function onFormSubmit(values: ExpenseFormValues) {
-    onSubmit({ ...values, date: format(values.date, 'yyyy-MM-dd') });
-    form.reset();
-    form.setValue("date", new Date());
+    if (isEditing && expenseToEdit) {
+      onSubmit({ ...values, id: expenseToEdit.id, date: format(values.date, 'yyyy-MM-dd') });
+    } else {
+      onSubmit({ ...values, date: format(values.date, 'yyyy-MM-dd') });
+      form.reset();
+      form.setValue("date", new Date());
+    }
+    if (onFinished) {
+      onFinished();
+    }
   }
 
   return (
@@ -163,7 +191,7 @@ export default function ExpenseForm({ onSubmit }: ExpenseFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">Add Expense</Button>
+        <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">{isEditing ? 'Save Changes' : 'Add Expense'}</Button>
       </form>
     </Form>
   );

@@ -17,54 +17,42 @@ const ExpenseSchema = z.object({
 });
 
 export async function fetchExpenses(token: string): Promise<Expense[]> {
-  // const response = await fetch('http://localhost:8080/api/expenses', {
-  //   headers: {
-  //     'Authorization': `Bearer ${token}`,
-  //   },
-  // });
-  // if (response.ok) {
-  //   const data = await response.json();
-  //   try {
-  //     const parsedExpenses = z.array(ExpenseSchema).parse(data);
-  //     return parsedExpenses;
-  //   } catch (error) {
-  //      console.error("Zod validation error:", error);
-  //      return [];
-  //   }
-  // }
-  // if (response.status === 401 || response.status === 403) {
-  //   console.error('Unauthorized: Invalid or expired token');
-  //   throw new Error('Unauthorized');
-  // }
-  // return [];
-
   // Mock API call for demo
   console.log("Fetching mock expenses with token:", token ? "present" : "absent");
-  return Promise.resolve(mockExpenses);
+  return Promise.resolve(JSON.parse(JSON.stringify(mockExpenses)));
 }
 
 export async function addExpense(expense: Omit<Expense, 'id'>, token: string): Promise<Expense> {
-  // const response = await fetch('http://localhost:8080/api/expenses', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': `Bearer ${token}`,
-  //   },
-  //   body: JSON.stringify(expense),
-  // });
-
-  // if (!response.ok) {
-  //   const errorData = await response.json().catch(() => ({ message: 'Failed to add expense' }));
-  //   throw new Error(errorData.message || 'Failed to add expense');
-  // }
-  // const newExpense = await response.json();
-  // return ExpenseSchema.parse(newExpense);
-  
   // Mock API call for demo
   console.log("Adding mock expense with token:", token ? "present" : "absent");
   const newExpense = {
     ...expense,
     id: new Date().getTime().toString(), // simple unique id
   };
-  return Promise.resolve(ExpenseSchema.parse(newExpense));
+  const parsedExpense = ExpenseSchema.parse(newExpense);
+  mockExpenses.unshift(parsedExpense);
+  return Promise.resolve(parsedExpense);
+}
+
+export async function updateExpense(expense: Expense, token: string): Promise<Expense> {
+  // Mock API call for demo
+  console.log("Updating mock expense with token:", token ? "present" : "absent");
+  const index = mockExpenses.findIndex(e => e.id === expense.id);
+  if (index !== -1) {
+    const parsedExpense = ExpenseSchema.parse(expense);
+    mockExpenses[index] = parsedExpense;
+    return Promise.resolve(parsedExpense);
+  }
+  throw new Error("Expense not found");
+}
+
+export async function deleteExpense(expenseId: string, token: string): Promise<{ id: string }> {
+    // Mock API call for demo
+    console.log("Deleting mock expense with token:", token ? "present" : "absent");
+    const index = mockExpenses.findIndex(e => e.id === expenseId);
+    if (index !== -1) {
+        mockExpenses.splice(index, 1);
+        return Promise.resolve({ id: expenseId });
+    }
+    throw new Error("Expense not found");
 }
