@@ -9,13 +9,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { addExpense, fetchExpenses, updateExpense, deleteExpense } from '@/lib/utils';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
-import { Button } from './ui/button';
 import { useToast } from '@/hooks/use-toast';
+import AccountDropdown from './account-dropdown';
 
 export default function DashboardView() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { token, user, logout } = useAuth();
+  const { token, logout } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -93,12 +93,7 @@ export default function DashboardView() {
     <main className="flex-1 space-y-6 p-4 sm:p-6 md:p-8">
       <div className="flex items-center justify-between space-y-2">
         <h1 className="text-4xl font-bold tracking-tight font-headline text-primary">ExpenseZen</h1>
-        {user && (
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground hidden sm:inline">Welcome, {user.email}</span>
-            <Button variant="outline" size="sm" onClick={() => { logout(); router.push('/login'); }}>Logout</Button>
-          </div>
-        )}
+        <AccountDropdown />
       </div>
       
       <ExpenseDashboard expenses={expenses} isLoading={isLoading} />
