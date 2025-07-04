@@ -41,30 +41,53 @@ export default function SignupPage() {
 
   const onSubmit = async (data: SignupFormValues) => {
     setIsSubmitting(true);
-    try {
-      const response = await fetch('http://localhost:8080/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+    // try {
+    //   const response = await fetch('http://localhost:8080/api/auth/signup', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(data),
+    //   });
       
-      const responseData = await response.json();
+    //   const responseData = await response.json();
 
-      if (!response.ok) {
-        throw new Error(responseData.message || 'Signup failed');
-      }
+    //   if (!response.ok) {
+    //     throw new Error(responseData.message || 'Signup failed');
+    //   }
 
-      login(responseData.token);
-      router.push('/');
-    } catch (error: any) {
+    //   login(responseData.token);
+    //   router.push('/');
+    // } catch (error: any) {
+    //   toast({
+    //     title: 'Signup Failed',
+    //     description: error.message,
+    //     variant: 'destructive',
+    //   });
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
+
+    // Mock API call for demo
+    setTimeout(() => {
       toast({
-        title: 'Signup Failed',
-        description: error.message,
-        variant: 'destructive',
+        title: 'Demo Mode',
+        description: "Signing you in with a demo account.",
       });
-    } finally {
+      // Create a mock JWT token
+      const header = { alg: 'HS256', typ: 'JWT' };
+      const payload = { 
+        id: 'clxzk15q9000078mna86hf9s4', 
+        email: 'demo@example.com', 
+        // Expires in 1 hour
+        exp: Math.floor(Date.now() / 1000) + (60 * 60) 
+      };
+      const encodedHeader = window.btoa(JSON.stringify(header));
+      const encodedPayload = window.btoa(JSON.stringify(payload));
+      const mockToken = `${encodedHeader}.${encodedPayload}.fakesignature`;
+
+      login(mockToken);
+      router.push('/');
       setIsSubmitting(false);
-    }
+    }, 1000);
   };
   
   if (isAuthLoading || token) {
@@ -80,7 +103,7 @@ export default function SignupPage() {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl font-headline">Sign Up</CardTitle>
-          <CardDescription>Enter your information to create an account.</CardDescription>
+          <CardDescription>For this demo, any signup will log you in with a sample account.</CardDescription>
         </CardHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
