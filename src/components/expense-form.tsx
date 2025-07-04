@@ -26,7 +26,7 @@ const formSchema = z.object({
 type ExpenseFormValues = z.infer<typeof formSchema>;
 
 interface ExpenseFormProps {
-  onSubmit: (data: Omit<Expense, 'id' | 'date'> & { date: string }) => void;
+  onSubmit: (data: Omit<Expense, 'id'>) => void;
 }
 
 export default function ExpenseForm({ onSubmit }: ExpenseFormProps) {
@@ -46,11 +46,7 @@ export default function ExpenseForm({ onSubmit }: ExpenseFormProps) {
   async function handleSuggestCategory() {
     const description = form.getValues("description");
     if (!description) {
-      toast({
-        title: "No Description",
-        description: "Please enter a description to suggest a category.",
-        variant: "destructive",
-      });
+      form.setError("description", { type: "manual", message: "Please enter a description to suggest a category." });
       return;
     }
 
@@ -107,7 +103,7 @@ export default function ExpenseForm({ onSubmit }: ExpenseFormProps) {
               <FormControl>
                 <div className="relative">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">$</span>
-                  <Input type="number" step="0.01" placeholder="0.00" className="pl-7" {...field} />
+                  <Input type="number" step="0.01" placeholder="0.00" className="pl-7" {...field} value={field.value ?? ''} />
                 </div>
               </FormControl>
               <FormMessage />
