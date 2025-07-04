@@ -162,7 +162,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
-                {categories.map((cat) => ( <SelectItem key={cat} value={cat}>{cat}</SelectItem> ))}
+                {categories.map((cat) => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
               </SelectContent>
             </Select>
             <Popover>

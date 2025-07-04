@@ -1,99 +1,302 @@
 'use client';
 
 import React from 'react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { FaQuestionCircle, FaLifeRing, FaPaperPlane, FaMapMarkerAlt } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const HelpSupportPage: React.FC = () => {
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // Handle form submission logic here
-    console.log('Support request submitted');
+  const [formData, setFormData] = React.useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('Support request submitted', formData);
+    // Reset form
+    setFormData({ name: '', email: '', message: '' });
+    // Show success message
+    alert('Thank you for your message! Our team will get back to you soon.');
+  };
+
+  const faqs = [
+    {
+      question: 'How do I add an expense?',
+      answer: 'Navigate to the Dashboard and use the "Add New Expense" form.',
+      icon: <FaQuestionCircle className="text-blue-500" />
+    },
+    {
+      question: 'Can I categorize my expenses?',
+      answer: 'Yes, you can select a category when adding or editing an expense.',
+      icon: <FaQuestionCircle className="text-purple-500" />
+    },
+    {
+      question: 'How can I view my expense history?',
+      answer: 'The Dashboard displays a list of your recent expenses. You can use filters to view specific periods or categories.',
+      icon: <FaQuestionCircle className="text-green-500" />
+    },
+    {
+      question: 'Is my financial data secure?',
+      answer: 'Yes, we take data security seriously and employ robust measures to protect your information.',
+      icon: <FaQuestionCircle className="text-yellow-500" />
+    },
+    {
+      question: 'Can I export my expense data?',
+      answer: 'This feature is available on the Dashboard. Look for the export option there.',
+      icon: <FaQuestionCircle className="text-red-500" />
+    },
+  ];
+
+  const supportResources = [
+    {
+      title: 'User Guide',
+      description: 'Comprehensive documentation for all features',
+      link: '#',
+      icon: <FaLifeRing className="h-6 w-6 text-blue-600" />
+    },
+    {
+      title: 'Video Tutorials',
+      description: 'Step-by-step video guides',
+      link: '#',
+      icon: <FaLifeRing className="h-6 w-6 text-purple-600" />
+    },
+    {
+      title: 'Community Forum',
+      description: 'Get help from other users',
+      link: '#',
+      icon: <FaLifeRing className="h-6 w-6 text-green-600" />
+    }
+  ];
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Help and Support</h1>
-
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Frequently Asked Questions (FAQs)</h2>
-        <div className="space-y-4">
-          <div>
-            <h3 className="text-xl font-medium">How do I add an expense?</h3>
-            <p className="text-gray-700">Navigate to the Dashboard and use the "Add New Expense" form.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-medium">Can I categorize my expenses?</h3>
-            <p className="text-gray-700">Yes, you can select a category when adding or editing an expense.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-medium">How can I view my expense history?</h3>
-            <p className="text-gray-700">The Dashboard displays a list of your recent expenses. You can use filters to view specific periods or categories.</p>
-          </div>
-          {/* Add more FAQs as needed */}
-        </div>
-      </section>
-
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Support Resources</h2>
-        <p className="text-gray-700">If you can't find the answer to your question in the FAQs, please use the form below to contact our support team.</p>
-        {/* Add links to documentation or other resources here if available */}
-      </section>
-
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Submit a Support Request</h2>
-        <form onSubmit={handleFormSubmit} className="space-y-4 max-w-md">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-700">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              rows={4}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-              required
-            ></textarea>
-          </div>
-          <div>
-            <button
-              type="submit"
-              className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              Submit Request
-            </button>
-          </div>
-        </form>
-      </section>
-
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Our Location</h2>
-        <p className="text-gray-700 mb-2">Pune, Maharashtra, India</p>
-        <a
-          href="https://www.google.com/maps/search/?api=1&query=Pune,+Maharashtra,+India"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-600 hover:underline"
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Hero Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
         >
-          View on Google Maps
-        </a>
-      </section>
+          <h1 className="text-4xl sm:text-5xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+            Help & Support
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Find answers to your questions or contact our support team for assistance.
+          </p>
+        </motion.div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - FAQs */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* FAQs Section */}
+            <motion.section 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="bg-white rounded-xl shadow-md overflow-hidden"
+            >
+              <div className="p-6 sm:p-8">
+                <div className="flex items-center mb-6">
+                  <div className="bg-blue-100 p-3 rounded-lg mr-4">
+                    <FaQuestionCircle className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-800">Frequently Asked Questions</h2>
+                </div>
+                
+                <Accordion type="single" collapsible className="w-full">
+                  {faqs.map((faq, index) => (
+                    <AccordionItem 
+                      key={index} 
+                      value={`item-${index}`}
+                      className="border-b border-gray-200 last:border-b-0"
+                    >
+                      <AccordionTrigger className="py-4 hover:no-underline group">
+                        <div className="flex items-center">
+                          <div className="mr-3">
+                            {faq.icon}
+                          </div>
+                          <span className="text-left font-medium text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
+                            {faq.question}
+                          </span>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="pb-4 pl-10 text-gray-600">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            </motion.section>
+
+            {/* Support Resources */}
+            <motion.section
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="bg-white rounded-xl shadow-md overflow-hidden"
+            >
+              <div className="p-6 sm:p-8">
+                <div className="flex items-center mb-6">
+                  <div className="bg-purple-100 p-3 rounded-lg mr-4">
+                    <FaLifeRing className="h-6 w-6 text-purple-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-800">Support Resources</h2>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {supportResources.map((resource, index) => (
+                    <motion.a
+                      key={index}
+                      whileHover={{ y: -5 }}
+                      href={resource.link}
+                      className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-all duration-300 border border-gray-200"
+                    >
+                      <div className="flex items-center mb-3">
+                        <div className="mr-3">
+                          {resource.icon}
+                        </div>
+                        <h3 className="font-semibold text-gray-800">{resource.title}</h3>
+                      </div>
+                      <p className="text-sm text-gray-600">{resource.description}</p>
+                    </motion.a>
+                  ))}
+                </div>
+              </div>
+            </motion.section>
+          </div>
+
+          {/* Right Column - Contact Form */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+            className="bg-white rounded-xl shadow-md overflow-hidden h-fit sticky top-8"
+          >
+            <div className="p-6 sm:p-8">
+              <div className="flex items-center mb-6">
+                <div className="bg-indigo-100 p-3 rounded-lg mr-4">
+                  <FaPaperPlane className="h-6 w-6 text-indigo-600" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-800">Contact Support</h2>
+              </div>
+              
+              <form onSubmit={handleFormSubmit} className="space-y-4">
+                <div>
+                  <Label htmlFor="name" className="block mb-2">Name</Label>
+                  <Input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="email" className="block mb-2">Email</Label>
+                  <Input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="message" className="block mb-2">Message</Label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="w-full"
+                    required
+                  />
+                </div>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all duration-300"
+                >
+                  Submit Request
+                </Button>
+              </form>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Location Section */}
+        <motion.section
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
+          className="mt-16 bg-white rounded-xl shadow-md overflow-hidden"
+        >
+          <div className="p-6 sm:p-8">
+            <div className="flex items-center mb-6">
+              <div className="bg-green-100 p-3 rounded-lg mr-4">
+                <FaMapMarkerAlt className="h-6 w-6 text-green-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800">Our Location</h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Pune Office</h3>
+                <p className="text-gray-600 mb-4">
+                  Tech Park One, Floor 8<br />
+                  Hinjewadi Phase 2<br />
+                  Pune, Maharashtra 411057<br />
+                  India
+                </p>
+                <a
+                  href="tel:+912044556677"
+                  className="text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  +91 20 4455 6677
+                </a>
+              </div>
+              
+              <div className="rounded-lg overflow-hidden border border-gray-200">
+                <iframe
+                  title="Office Location"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.265588856342!2d73.73616731522137!3d18.562061287384868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf2e67461101%3A0x828d43bf9d9ee343!2sPune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1625060000000!5m2!1sen!2sin"
+                  width="100%"
+                  height="250"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+      </div>
     </div>
   );
 };

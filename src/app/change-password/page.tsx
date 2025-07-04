@@ -1,10 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { Input } from '@/components/ui/input'; // Assuming you have an Input component
+import { Button } from '@/components/ui/button'; // Assuming you have a Button component
+import { Label } from '@/components/ui/label'; // Assuming you have a Label component
 
 const ChangePasswordPage = () => {
   const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [newPassword, setNewPassword] = useState(''); 
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [message, setMessage] = useState('');
 

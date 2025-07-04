@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/context/auth-context';
+import Header from '../components/header';
 
 export const metadata: Metadata = {
   title: 'ExpenseZen',
@@ -23,7 +24,8 @@ export default function RootLayout({
       <body className="font-body antialiased">
         <AuthProvider>
           <div className="flex flex-col min-h-screen">
-            <main className="flex-grow">
+            <Header />
+            <main className="flex-grow pt-16">
               {children}
             </main>
             <footer className="bg-gray-100 py-4 mt-8">
