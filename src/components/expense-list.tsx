@@ -64,6 +64,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
   const [itemsPerPage] = useState(10);
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' }>({ key: '', direction: 'asc' });
 
 
   const handleSort = (key: SortKey) => {
