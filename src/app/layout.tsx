@@ -22,7 +22,22 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <AuthProvider>
-          {children}
+          <div className="flex flex-col min-h-screen">
+            <main className="flex-grow">
+              {children}
+            </main>
+            <footer className="bg-gray-100 py-4 mt-8">
+              <div className="container mx-auto px-4 text-center text-gray-600 text-sm">
+                <p>&copy; {new Date().getFullYear()} ExpenseZen. All rights reserved.</p>
+                <p>
+                  <a href="/about-us" className="text-blue-600 hover:underline">About Us</a> |{' '}
+                  <a href="/contact" className="text-blue-600 hover:underline">Contact</a>{' '}
+                  | <a href="/terms-of-service" className="text-blue-600 hover:underline">Terms of Service</a> |{' '}
+                  <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a>
+                </p>
+              </div>
+            </footer>
+          </div>
           <Toaster />
         </AuthProvider>
       </body>

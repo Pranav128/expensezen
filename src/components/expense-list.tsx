@@ -59,10 +59,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
   const [filter, setFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: addDays(new Date(), -30),
-    to: new Date(),
   });
-  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' }>({ key: 'date', direction: 'desc' });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
@@ -111,7 +108,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
   const totalPages = useMemo(() => {
       return Math.ceil(filteredAndSortedExpenses.length / itemsPerPage);
   }, [filteredAndSortedExpenses, itemsPerPage]);
-
+  
   useEffect(() => {
       if (totalPages > 0 && currentPage > totalPages) {
           setCurrentPage(totalPages);
@@ -119,13 +116,11 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
   }, [currentPage, totalPages]);
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [filter, categoryFilter, dateRange, sortConfig]);
-
-  const clearFilters = () => {
-    setFilter('');
-    setCategoryFilter('all');
-    setDateRange({ from: addDays(new Date(), -30), to: new Date() });
+    // Set initial date range to undefined to display all transactions
+    // when the component mounts for the first time.
+    if (dateRange === undefined) {
+ setDateRange(undefined);
+    }
     setSortConfig({ key: 'date', direction: 'desc' });
   };
 
@@ -138,6 +133,13 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
     onUpdateExpense(data as Expense);
     setIsEditDialogOpen(false);
     setEditingExpense(null);
+  };
+
+  const clearFilters = () => {
+    setFilter('');
+    setCategoryFilter('all');
+ setDateRange(undefined); // Clear date range to show all
+    setSortConfig({ key: 'date', direction: 'desc' });
   };
 
   const renderSortArrow = (key: SortKey) => {
@@ -178,7 +180,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
-                <Calendar initialFocus mode="range" defaultMonth={dateRange?.from} selected={dateRange} onSelect={setDateRange} numberOfMonths={2} />
+ <Calendar mode="range" selected={dateRange} onSelect={setDateRange} numberOfMonths={2} />
               </PopoverContent>
             </Popover>
             <Button variant="ghost" size="icon" onClick={clearFilters}><FilterX className="h-4 w-4" /></Button>

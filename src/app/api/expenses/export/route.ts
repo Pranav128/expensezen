@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getDataFromToken } from '@/helpers/getDataFromToken';
 import Expense from '@/models/expense';
-import { connect } from '@/lib/db';
+import dbConnect from '@/lib/db';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    await connect();
+    await dbConnect();
     const userId = await getDataFromToken(request);
 
     const { searchParams } = new URL(request.url);

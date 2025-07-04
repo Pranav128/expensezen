@@ -37,7 +37,7 @@ import {
 import UpdateUserForm from "./update-user-form";
 import { LogOut, User, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
+import Link from "next/link";
 export default function AccountDropdown() {
   const { user, logout } = useAuth();
   const router = useRouter();
@@ -110,6 +110,27 @@ export default function AccountDropdown() {
                   <FileText className="mr-2 h-4 w-4" />
                   <span>Export Data</span>
                 </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => router.push("/settings")}
+                > {/* Replace with appropriate icon */}
+                  <span>Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => router.push("/help-support")}
+                >
+                  <FileText className="mr-2 h-4 w-4" /> {/* Replace with appropriate icon */}
+                  <span>Help/Support</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={() => router.push("/change-password")}>
+                  <span>Change Password</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+ onSelect={() => router.push("/activity-log")}>
+ <span>View Activity Log</span>
+                </DropdownMenuItem>
+                {/* Add other important items here if needed */}
+
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               {/* <AlertDialogTrigger asChild> */}
