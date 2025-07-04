@@ -130,7 +130,7 @@ export default function ExpenseForm({ onSubmit, expenseToEdit, onFinished }: Exp
               <FormLabel>Amount</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">$</span>
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">₹</span>
                   <Input type="number" step="0.01" placeholder="0.00" className="pl-7" {...field} value={field.value ?? ''} />
                 </div>
               </FormControl>

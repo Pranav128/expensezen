@@ -5,7 +5,7 @@ import type { Expense } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from '@/components/ui/chart';
 import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
-import { BarChart2, PieChart as PieChartIcon, TrendingUp, DollarSign } from 'lucide-react';
+import { BarChart2, PieChart as PieChartIcon, TrendingUp, IndianRupee } from 'lucide-react';
 import { Skeleton } from './ui/skeleton';
 
 interface ExpenseDashboardProps {
@@ -79,11 +79,11 @@ export default function ExpenseDashboard({ expenses, isLoading }: ExpenseDashboa
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium font-headline">Total Expenses</CardTitle>
-          <DollarSign className="h-4 w-4 text-muted-foreground" />
+          <IndianRupee className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-3xl font-bold">
-            ${totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            ₹{totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
           <p className="text-xs text-muted-foreground">Across all recorded transactions</p>
         </CardContent>
@@ -95,7 +95,7 @@ export default function ExpenseDashboard({ expenses, isLoading }: ExpenseDashboa
         </CardHeader>
         <CardContent>
           <div className="text-3xl font-bold">
-            ${averageExpense.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            ₹{averageExpense.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
           <p className="text-xs text-muted-foreground">Average value per expense</p>
         </CardContent>
@@ -128,7 +128,7 @@ export default function ExpenseDashboard({ expenses, isLoading }: ExpenseDashboa
             <BarChart data={monthlyData} margin={{ top: 20, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid vertical={false} strokeDasharray="3 3" />
               <XAxis dataKey="name" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
-              <YAxis tickFormatter={(value) => `$${value}`} tick={{ fontSize: 12 }} tickLine={false} axisLine={false} width={40} />
+              <YAxis tickFormatter={(value) => `₹${value}`} tick={{ fontSize: 12 }} tickLine={false} axisLine={false} width={40} />
               <Tooltip cursor={{ fill: 'hsl(var(--secondary))' }} content={<ChartTooltipContent indicator="dot" />} />
               <Bar dataKey="total" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
             </BarChart>

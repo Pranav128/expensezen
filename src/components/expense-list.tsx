@@ -212,7 +212,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
                     <TableRow key={expense.id} className="hover:bg-secondary/50">
                       <TableCell className="font-medium max-w-[200px] truncate">{expense.description}</TableCell>
                       <TableCell><span className="px-2 py-1 bg-secondary rounded-full text-xs">{expense.category}</span></TableCell>
-                      <TableCell className="text-right font-mono">${expense.amount.toFixed(2)}</TableCell>
+                      <TableCell className="text-right font-mono">₹{expense.amount.toFixed(2)}</TableCell>
                       <TableCell className="text-right text-muted-foreground">{format(new Date(expense.date.replace(/-/g, '/')), "MMM dd, yyyy")}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-1">
