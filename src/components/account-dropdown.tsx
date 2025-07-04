@@ -110,7 +110,6 @@ export default function AccountDropdown() {
         </DialogContent>
       </Dialog>
 
-      {/* AlertDialog for Logout Confirmation */}
       <AlertDialog open={isLogoutConfirmOpen} onOpenChange={setIsLogoutConfirmOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -125,7 +124,6 @@ export default function AccountDropdown() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </>
-
+      </>
   );
 }
