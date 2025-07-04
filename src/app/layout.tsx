@@ -25,10 +25,10 @@ export default function RootLayout({
         <AuthProvider>
           <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="flex-grow pt-16">
+            <main className="flex-grow">
               {children}
             </main>
-            <footer className="bg-gray-100 py-4 mt-8">
+            <footer className="bg-gray-100 py-4 mt-0.5">
               <div className="container mx-auto px-4 text-center text-gray-600 text-sm">
                 <p>&copy; {new Date().getFullYear()} ExpenseZen. All rights reserved.</p>
                 <p>

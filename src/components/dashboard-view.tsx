@@ -91,10 +91,10 @@ export default function DashboardView() {
 
   return (
     <main className="flex-1 space-y-6 p-4 sm:p-6 md:p-8">
-      <div className="flex items-center justify-between space-y-2">
+      {/* <div className="flex items-center justify-between space-y-2">
         <h1 className="text-4xl font-bold tracking-tight font-headline text-primary">ExpenseZen</h1>
         <AccountDropdown />
-      </div>
+      </div> */}
       
       <ExpenseDashboard expenses={expenses} isLoading={isLoading} />
       
