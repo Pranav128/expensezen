@@ -37,13 +37,12 @@ export async function GET(request: NextRequest) {
     }
 
     await dbConnect();
-
     const { searchParams } = new URL(request.url);
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
     const category = searchParams.get('category');
 
-    const filter: any = { userId };
+    const filter: any = { userId: userId };
     if (startDate && endDate) {
       filter.date = {
         $gte: new Date(startDate),
@@ -55,31 +54,7 @@ export async function GET(request: NextRequest) {
     }
 
     const expenses = await Expense.find(filter);
-
-    // Generate CSV
-    const csvHeader = ['Description', 'Amount', 'Category', 'Date'].join(',');
-    const csvRows = expenses.map(expense =>
-      [expense.description, expense.amount, expense.category, format(new Date(expense.date), 'yyyy-MM-dd')].join(',')
-    );
-    const csvData = [csvHeader, ...csvRows].join('\n');
-
-    return new NextResponse(csvData, {
-      headers: {
-        'Content-Type': 'text/csv',
-        'Content-Disposition': 'attachment; filename="expenses.csv"',
-      },
-    });
-  } catch (error: any) {
-    return NextResponse.json({ message: error.message }, { status: 500 });
-  }
-}
-
-export async function GET(request: NextRequest) {
-  try {
-    const userId = getDataFromToken(request);
-    if (!userId) {
-      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-    }
+    return NextResponse.json(expenses);
 
     await dbConnect();
     const expenses = await Expense.find({ userId });
