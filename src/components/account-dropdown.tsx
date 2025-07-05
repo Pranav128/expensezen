@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { useAuth } from "@/hooks/use-auth";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -19,9 +20,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
 } from "@/components/ui/dialog";
 import {
   AlertDialog,
@@ -32,12 +30,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import UpdateUserForm from "./update-user-form";
-import { LogOut, User, FileText, LockKeyhole, FileUp, Info } from "lucide-react";
+import { LogOut, User, FileUp, LockKeyhole, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import Link from "next/link";
+
 export default function AccountDropdown() {
   const { user, logout } = useAuth();
   const router = useRouter();
@@ -69,72 +66,69 @@ export default function AccountDropdown() {
 
   return (
     <>
-      <Dialog open={isUpdateUserOpen} onOpenChange={setIsUpdateUserOpen}>
-        {" "}
-        {/* Dialog for Update Profile */}
-        {/* <DialogTrigger asChild> */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="relative h-10 w-10 rounded-full"
-              >
-                <Avatar className="h-10 w-10">
-                  <AvatarFallback className="bg-primary text-primary-foreground font-bold">
-                    {getInitials(user.email)}
-                  </AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">My Account</p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    {user.email}
-                  </p>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem
-                  onSelect={(e) => {
-                    e.preventDefault();
-                    setIsUpdateUserOpen(true);
-                  }}
-                >
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Update Profile</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleExport}>
-                  <FileUp className="mr-2 h-4 w-4" />
-                  <span>Export Data</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => router.push("/help-support")}
-                >
-                  <Info className="mr-2 h-4 w-4" /> {/* Replace with appropriate icon */}
-                  <span>Help/Support</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onSelect={() => router.push("/change-password")}>
-                    <LockKeyhole className="mr-2 h-4 w-4" />
-                  <span>Change Password</span>
-                </DropdownMenuItem>
-                {/* Add other important items here if needed */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+            <Avatar className="h-10 w-10">
+              {user.profilePicture && (
+                <AvatarImage asChild>
+                  <Image
+                    src={user.profilePicture}
+                    alt="User profile picture"
+                    width={40}
+                    height={40}
+                    className="object-cover"
+                  />
+                </AvatarImage>
+              )}
+              <AvatarFallback className="bg-primary text-primary-foreground font-bold">
+                {getInitials(user.email)}
+              </AvatarFallback>
+            </Avatar>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" align="end" forceMount>
+          <DropdownMenuLabel className="font-normal">
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium leading-none">My Account</p>
+              <p className="text-xs leading-none text-muted-foreground">
+                {user.email}
+              </p>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              onSelect={(e) => {
+                e.preventDefault();
+                setIsUpdateUserOpen(true);
+              }}
+            >
+              <User className="mr-2 h-4 w-4" />
+              <span>Update Profile</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleExport}>
+              <FileUp className="mr-2 h-4 w-4" />
+              <span>Export Data</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/help-support")}>
+              <Info className="mr-2 h-4 w-4" />
+              <span>Help/Support</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => router.push("/change-password")}>
+              <LockKeyhole className="mr-2 h-4 w-4" />
+              <span>Change Password</span>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onSelect={() => setIsLogoutConfirmOpen(true)}>
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Log out</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              {/* <AlertDialogTrigger asChild> */}
-                <DropdownMenuItem onSelect={() => setIsLogoutConfirmOpen(true)}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span> {/* Added missing text */}
-                </DropdownMenuItem>
-              {/* </AlertDialogTrigger> */}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        {/* </DialogTrigger> */}
-        {/* Content for Update Profile Dialog */}
+      <Dialog open={isUpdateUserOpen} onOpenChange={setIsUpdateUserOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Update Profile</DialogTitle>
@@ -158,12 +152,8 @@ export default function AccountDropdown() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setIsLogoutConfirmOpen(false)}>
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={handleLogout}>
-              Log Out
-            </AlertDialogAction>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleLogout}>Log Out</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
