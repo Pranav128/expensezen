@@ -6,7 +6,7 @@ ExpenseZen is a modern, intuitive, and secure web application designed to help y
 
 ## Live Demo
 
-**[Access the Live Demo](https://your-live-demo-url.com)** &nbsp; 
+**[Access the Live Demo](https://expense-tracker-eight-flax.vercel.app/)** &nbsp; 
 
 ---
 
