@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuth } from '@/hooks/use-auth';
@@ -9,10 +9,11 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
-import { Loader2, Save } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 const updateUserSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
+  profilePicture: z.any().optional(),
 });
 
 type UpdateUserFormValues = z.infer<typeof updateUserSchema>;
@@ -22,7 +23,7 @@ interface UpdateUserFormProps {
 }
 
 export default function UpdateUserForm({ onFinished }: UpdateUserFormProps) {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
 
@@ -30,28 +31,41 @@ export default function UpdateUserForm({ onFinished }: UpdateUserFormProps) {
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
       email: user?.email || '',
+      profilePicture: undefined,
     },
-    mode: "onChange" // Enable real-time validation and watching
   });
-
-  const watchedFields = useWatch({ control: form.control });
 
   const handleSave = async (data: UpdateUserFormValues) => {
     setIsSaving(true);
+    const formData = new FormData();
+    formData.append('email', data.email);
+    if (data.profilePicture && data.profilePicture.length > 0) {
+      formData.append('profilePicture', data.profilePicture[0]);
+    }
+    
     try {
-      // Replace with your actual API call to update user
-      console.log("Saving user data:", data);
-      // Example: const response = await fetch('/api/update-user', { method: 'PUT', body: JSON.stringify(data) });
-      // Handle response...
+      const response = await fetch('/api/auth/update-profile', {
+        method: 'PUT',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to update profile.');
+      }
+      
+      updateUser(result.user);
+      
       toast({
         title: 'Profile Updated',
         description: 'Your profile has been updated successfully.',
       });
       onFinished();
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: 'Error',
-        description: 'Failed to update profile.',
+        description: error.message,
         variant: 'destructive',
       });
     } finally {
@@ -61,7 +75,7 @@ export default function UpdateUserForm({ onFinished }: UpdateUserFormProps) {
 
   return (
     <Form {...form}>
-      <form className="space-y-6">
+      <form onSubmit={form.handleSubmit(handleSave)} className="space-y-6">
         <FormField
           control={form.control}
           name="email"
@@ -75,12 +89,27 @@ export default function UpdateUserForm({ onFinished }: UpdateUserFormProps) {
             </FormItem>
           )}
         />
-        {form.formState.isDirty && (
-          <Button type="button" onClick={form.handleSubmit(handleSave)} className="w-full" disabled={isSaving || !form.formState.isValid}>
-            {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Save Changes
-          </Button>
-        )}
+        <FormField
+          control={form.control}
+          name="profilePicture"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Profile Picture</FormLabel>
+              <FormControl>
+                <Input 
+                    type="file" 
+                    accept="image/*"
+                    onChange={(e) => field.onChange(e.target.files)}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" className="w-full" disabled={isSaving}>
+          {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Save Changes
+        </Button>
       </form>
     </Form>
   );

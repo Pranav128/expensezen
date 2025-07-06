@@ -9,10 +9,19 @@ interface AuthContextType {
   user: User | null;
   login: (newToken: string) => void;
   logout: () => void;
+  updateUser: (updatedUserData: Partial<User>) => void;
   isLoading: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+type DecodedToken = {
+  id: string;
+  email: string;
+  profilePicture?: string;
+  iat: number;
+  exp: number;
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
@@ -24,11 +33,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (newToken) {
       localStorage.setItem('authToken', newToken);
       try {
-        const decodedToken: { id: string; email: string; iat: number; exp: number } = jwtDecode(newToken);
+        const decodedToken: DecodedToken = jwtDecode(newToken);
         if (decodedToken.exp * 1000 > Date.now()) {
-          setUser({ id: decodedToken.id, email: decodedToken.email });
+          setUser({ id: decodedToken.id, email: decodedToken.email, profilePicture: decodedToken.profilePicture });
         } else {
-          // Token is expired
           localStorage.removeItem('authToken');
           setUser(null);
           setToken(null);
@@ -65,8 +73,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     handleSetToken(null);
   };
+  
+  const updateUser = (updatedUserData: Partial<User>) => {
+    setUser(prevUser => {
+      if (!prevUser) return null;
+      return { ...prevUser, ...updatedUserData };
+    });
+  };
 
-  const value = { token, user, login, logout, isLoading };
+  const value = { token, user, login, logout, updateUser, isLoading };
 
   return (
     <AuthContext.Provider value={value}>
