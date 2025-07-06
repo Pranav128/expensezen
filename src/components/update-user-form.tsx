@@ -24,6 +24,7 @@ interface UpdateUserFormProps {
 
 export default function UpdateUserForm({ onFinished }: UpdateUserFormProps) {
   const { user, updateUser } = useAuth();
+  const { token } = useAuth();
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
 
@@ -47,6 +48,9 @@ export default function UpdateUserForm({ onFinished }: UpdateUserFormProps) {
       const response = await fetch('/api/auth/update-profile', {
         method: 'PUT',
         body: formData,
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
       });
 
       const result = await response.json();
