@@ -42,6 +42,8 @@ export default function AccountDropdown() {
   const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
   const [isUpdateUserOpen, setIsUpdateUserOpen] = useState(false);
 
+  console.log("Current user profile picture:", user?.profilePicture);
+
   if (!user) {
     return null;
   }
