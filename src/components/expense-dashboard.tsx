@@ -172,7 +172,7 @@ export default function ExpenseDashboard({ expenses, isLoading }: ExpenseDashboa
         </CardHeader>
         <CardContent className="h-[200px] p-0">
           <ChartContainer config={{}} className="h-full w-full">
-            <BarChart data={monthlyData} margin={{ top: 20, right: 20, left: 0, bottom: 5 }}>
+            <BarChart data={monthlyData} margin={{ top: 20, right: 20, left: 10, bottom: 5 }}>
               <CartesianGrid vertical={false} strokeDasharray="3 3" />
               <XAxis dataKey="name" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
               <YAxis tickFormatter={(value) => `₹${value}`} tick={{ fontSize: 12 }} tickLine={false} axisLine={false} width={40} />
