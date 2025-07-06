@@ -6,10 +6,13 @@ import { Button } from '@/components/ui/button'; // Assuming you have a Button c
 import { Label } from '@/components/ui/label'; // Assuming you have a Label component
 
 const ChangePasswordPage = () => {
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState(''); 
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [forgotPasswordMessage, setForgotPasswordMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,62 +32,121 @@ const ChangePasswordPage = () => {
     setMessage('Password change functionality not yet implemented.');
   };
 
+  const handleForgotPasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) {
+      setForgotPasswordMessage('Please enter your email address.');
+      return;
+    }
+    // Add your forgot password logic here
+    console.log('Initiating password reset for email:', email);
+    // Call API to initiate password reset
+    // Example: await fetch('/api/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) });
+    setForgotPasswordMessage('Password reset initiated. Check your email for instructions.');
+    setEmail('');
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">Change Password</h1>
-      <form onSubmit={handleSubmit} className="max-w-sm">
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="current-password">
-            Current Password
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="current-password"
-            type="password"
-            placeholder="Enter your current password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="new-password">
-            New Password
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="new-password"
-            type="password"
-            placeholder="Enter your new password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirm-new-password">
-            Confirm New Password
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="confirm-new-password"
-            type="password"
-            placeholder="Confirm your new password"
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-            required
-          />
-        </div>
-        {message && <p className="text-red-500 text-xs italic mb-4">{message}</p>}
-        <div className="flex items-center justify-between">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
+      <h1 className="text-2xl font-bold mb-4">{isForgotPassword ? 'Forgot Password' : 'Change Password'}</h1>
+      
+      {isForgotPassword ? (
+        <form onSubmit={handleForgotPasswordSubmit} className="max-w-sm">
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+              Email Address
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          {forgotPasswordMessage && <p className="text-red-500 text-xs italic mb-4">{forgotPasswordMessage}</p>}
+          <div className="flex items-center justify-between">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Reset Password
+            </button>
+          </div>
+          <button 
+            type="button" 
+            className="mt-4 text-blue-500 hover:text-blue-700 text-sm"
+            onClick={() => setIsForgotPassword(false)}
           >
-            Change Password
+            Back to Change Password
           </button>
-        </div>
-      </form>
+        </form>
+      ) : (
+        <>
+          <form onSubmit={handleSubmit} className="max-w-sm">
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="current-password">
+                Current Password
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="current-password"
+                type="password"
+                placeholder="Enter your current password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="new-password">
+                New Password
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="new-password"
+                type="password"
+                placeholder="Enter your new password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-6">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirm-new-password">
+                Confirm New Password
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="confirm-new-password"
+                type="password"
+                placeholder="Confirm your new password"
+                value={confirmNewPassword}
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                required
+              />
+            </div>
+            {message && <p className="text-red-500 text-xs italic mb-4">{message}</p>}
+            <div className="flex items-center justify-between">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit"
+              >
+                Change Password
+              </button>
+            </div>
+          </form>
+          <button 
+            type="button" 
+            className="mt-4 text-blue-500 hover:text-blue-700 text-sm"
+            onClick={() => setIsForgotPassword(true)}
+          >
+            Forgot Password?
+          </button>
+        </>
+      )}
     </div>
   );
 };
