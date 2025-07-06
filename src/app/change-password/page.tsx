@@ -1,154 +1,104 @@
 'use client';
 
 import { useState } from 'react';
-import { Input } from '@/components/ui/input'; // Assuming you have an Input component
-import { Button } from '@/components/ui/button'; // Assuming you have a Button component
-import { Label } from '@/components/ui/label'; // Assuming you have a Label component
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useToast } from '@/hooks/use-toast';
+import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
 
-const ChangePasswordPage = () => {
-  const [isForgotPassword, setIsForgotPassword] = useState(false);
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState(''); 
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [email, setEmail] = useState('');
-  const [forgotPasswordMessage, setForgotPasswordMessage] = useState('');
+const forgotPasswordSchema = z.object({
+  email: z.string().email({ message: 'Please enter a valid email address.' }),
+});
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Add your password change logic here
-    if (newPassword !== confirmNewPassword) {
-      setMessage('New password and confirm password do not match.');
-      return;
+type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
+
+export default function ForgotPasswordPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const form = useForm<ForgotPasswordFormValues>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: '',
+    },
+  });
+
+  const onSubmit = async (data: ForgotPasswordFormValues) => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.message || 'An error occurred.');
+      }
+      
+      toast({
+        title: 'Request Sent',
+        description: responseData.message,
+      });
+
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-    // Call API to change password
-    console.log('Changing password...');
-    console.log('Current Password:', currentPassword);
-    console.log('New Password:', newPassword);
-    // Reset form
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmNewPassword('');
-    setMessage('Password change functionality not yet implemented.');
-  };
-
-  const handleForgotPasswordSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) {
-      setForgotPasswordMessage('Please enter your email address.');
-      return;
-    }
-    // Add your forgot password logic here
-    console.log('Initiating password reset for email:', email);
-    // Call API to initiate password reset
-    // Example: await fetch('/api/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) });
-    setForgotPasswordMessage('Password reset initiated. Check your email for instructions.');
-    setEmail('');
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">{isForgotPassword ? 'Forgot Password' : 'Change Password'}</h1>
-      
-      {isForgotPassword ? (
-        <form onSubmit={handleForgotPasswordSubmit} className="max-w-sm">
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-              Email Address
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          {forgotPasswordMessage && <p className="text-red-500 text-xs italic mb-4">{forgotPasswordMessage}</p>}
-          <div className="flex items-center justify-between">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Reset Password
-            </button>
-          </div>
-          <button 
-            type="button" 
-            className="mt-4 text-blue-500 hover:text-blue-700 text-sm"
-            onClick={() => setIsForgotPassword(false)}
-          >
-            Back to Change Password
-          </button>
-        </form>
-      ) : (
-        <>
-          <form onSubmit={handleSubmit} className="max-w-sm">
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="current-password">
-                Current Password
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="current-password"
-                type="password"
-                placeholder="Enter your current password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                required
+    <div className="flex items-center justify-center min-h-screen bg-background p-4">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-2xl font-headline">Forgot Password</CardTitle>
+          <CardDescription>Enter your email to receive a password reset link.</CardDescription>
+        </CardHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <CardContent>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="m@example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="new-password">
-                New Password
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="new-password"
-                type="password"
-                placeholder="Enter your new password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirm-new-password">
-                Confirm New Password
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="confirm-new-password"
-                type="password"
-                placeholder="Confirm your new password"
-                value={confirmNewPassword}
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-                required
-              />
-            </div>
-            {message && <p className="text-red-500 text-xs italic mb-4">{message}</p>}
-            <div className="flex items-center justify-between">
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="submit"
-              >
-                Change Password
-              </button>
-            </div>
+            </CardContent>
+            <CardFooter className="flex-col items-start gap-4">
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Send Reset Link
+              </Button>
+               <div className="text-sm text-center w-full">
+                Remember your password?{' '}
+                <Link href="/login" className="underline hover:text-primary">
+                  Back to Login
+                </Link>
+              </div>
+            </CardFooter>
           </form>
-          <button 
-            type="button" 
-            className="mt-4 text-blue-500 hover:text-blue-700 text-sm"
-            onClick={() => setIsForgotPassword(true)}
-          >
-            Forgot Password?
-          </button>
-        </>
-      )}
+        </Form>
+      </Card>
     </div>
   );
-};
-
-export default ChangePasswordPage;
+}
