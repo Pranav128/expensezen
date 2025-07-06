@@ -6,7 +6,7 @@ ExpenseZen is a modern, intuitive, and secure web application designed to help y
 
 ## Live Demo
 
-**[Access the Live Demo](https://your-live-demo-url.com)** &nbsp; *(Note: You'll need to update this link with your actual deployment URL.)*
+**[Access the Live Demo](https://your-live-demo-url.com)** &nbsp; *(Note: Replace this placeholder with your actual deployment URL once deployed.)*
 
 ---
 
@@ -30,13 +30,13 @@ Here's a sneak peek into the ExpenseZen application:
 
 | Dashboard | Transaction History |
 | :---: | :---: |
-| <img src="https://placehold.co/800x450.png" alt="ExpenseZen Dashboard" data-ai-hint="dashboard chart" width="400"/> | <img src="https://placehold.co/800x450.png" alt="ExpenseZen Transaction History" data-ai-hint="data table" width="400"/> |
+| Add a screenshot of the Dashboard here | Add a screenshot of the Transaction History here |
 
 | Mobile View | Add Expense Form |
 | :---: | :---: |
-| <img src="https://placehold.co/400x800.png" alt="ExpenseZen on Mobile" data-ai-hint="mobile ui" width="200"/> | <img src="https://placehold.co/800x600.png" alt="Add Expense Form with AI Suggestion" data-ai-hint="form" width="400"/> |
+| Add a screenshot of the Mobile View here | Add a screenshot of the Add Expense Form here |
 
-
+*(Note: Replace the placeholder text above with actual screenshots of your application.)*
 ---
 
 ## Tech Stack
@@ -57,7 +57,9 @@ Follow these instructions to get a local copy up and running.
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/en/) (v18 or newer recommended)
-- [MongoDB](https://www.mongodb.com/try/download/community) instance (local or cloud-hosted, e.g., MongoDB Atlas)
+- A [MongoDB](https://www.mongodb.com/try/download/community) instance (local or cloud-hosted, e.g., MongoDB Atlas)
+- An email account configured to send emails (required for "Forgot Password" functionality, e.g., Gmail, SendGrid, etc.)
+- If using AI features, a Google Cloud project with Genkit set up.
 
 ### Installation & Setup
 
