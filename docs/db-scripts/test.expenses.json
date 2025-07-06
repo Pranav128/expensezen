@@ -1,0 +1,1297 @@
+[{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf07"
+  },
+  "description": "Netflix Monthly Subscription",
+  "amount": 15.99,
+  "category": "Entertainment",
+  "date": "2025-01-01",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf08"
+  },
+  "description": "Whole Foods Grocery Shopping",
+  "amount": 87.45,
+  "category": "Groceries",
+  "date": "2025-01-02",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf09"
+  },
+  "description": "Shell Gas Station Fill-up",
+  "amount": 42.3,
+  "category": "Transportation",
+  "date": "2025-01-03",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf0a"
+  },
+  "description": "iPhone Screen Repair",
+  "amount": 129.99,
+  "category": "Electronics",
+  "date": "2025-01-05",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf0b"
+  },
+  "description": "Starbucks Coffee",
+  "amount": 5.75,
+  "category": "Dining Out",
+  "date": "2025-01-06",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf0c"
+  },
+  "description": "Amazon Prime Membership",
+  "amount": 139,
+  "category": "Subscriptions",
+  "date": "2025-01-07",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf0d"
+  },
+  "description": "Target Household Items",
+  "amount": 63.28,
+  "category": "Shopping",
+  "date": "2025-01-08",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf0e"
+  },
+  "description": "Dentist Checkup",
+  "amount": 120,
+  "category": "Healthcare",
+  "date": "2025-01-09",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf0f"
+  },
+  "description": "Electricity Bill Payment",
+  "amount": 78.34,
+  "category": "Utilities",
+  "date": "2025-01-10",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf10"
+  },
+  "description": "Spotify Premium Subscription",
+  "amount": 9.99,
+  "category": "Entertainment",
+  "date": "2025-01-11",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf11"
+  },
+  "description": "Olive Garden Dinner",
+  "amount": 45.6,
+  "category": "Dining Out",
+  "date": "2025-01-12",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf12"
+  },
+  "description": "Gym Membership",
+  "amount": 29.99,
+  "category": "Fitness",
+  "date": "2025-01-13",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf13"
+  },
+  "description": "Car Oil Change",
+  "amount": 39.95,
+  "category": "Auto Maintenance",
+  "date": "2025-01-14",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf14"
+  },
+  "description": "Movie Tickets",
+  "amount": 24.5,
+  "category": "Entertainment",
+  "date": "2025-01-15",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf15"
+  },
+  "description": "Water Bill Payment",
+  "amount": 42.75,
+  "category": "Utilities",
+  "date": "2025-01-16",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf16"
+  },
+  "description": "New Running Shoes",
+  "amount": 89.99,
+  "category": "Fitness",
+  "date": "2025-01-17",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf17"
+  },
+  "description": "CVS Pharmacy",
+  "amount": 23.45,
+  "category": "Healthcare",
+  "date": "2025-01-18",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf18"
+  },
+  "description": "Internet Bill",
+  "amount": 64.99,
+  "category": "Utilities",
+  "date": "2025-01-19",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf19"
+  },
+  "description": "Uber Ride",
+  "amount": 18.75,
+  "category": "Transportation",
+  "date": "2025-01-20",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf1a"
+  },
+  "description": "Costco Bulk Shopping",
+  "amount": 156.89,
+  "category": "Groceries",
+  "date": "2025-01-21",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf1b"
+  },
+  "description": "Dry Cleaning",
+  "amount": 32.5,
+  "category": "Personal Care",
+  "date": "2025-01-22",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf1c"
+  },
+  "description": "New Desk Chair",
+  "amount": 149.99,
+  "category": "Furniture",
+  "date": "2025-01-23",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf1d"
+  },
+  "description": "Pizza Delivery",
+  "amount": 28.45,
+  "category": "Dining Out",
+  "date": "2025-01-24",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf1e"
+  },
+  "description": "Car Wash",
+  "amount": 12,
+  "category": "Auto Maintenance",
+  "date": "2025-01-25",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf1f"
+  },
+  "description": "Haircut",
+  "amount": 35,
+  "category": "Personal Care",
+  "date": "2025-01-26",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf20"
+  },
+  "description": "Monthly Parking Fee",
+  "amount": 75,
+  "category": "Transportation",
+  "date": "2025-01-27",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf21"
+  },
+  "description": "New Phone Case",
+  "amount": 19.99,
+  "category": "Electronics",
+  "date": "2025-01-28",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf22"
+  },
+  "description": "Concert Tickets",
+  "amount": 120,
+  "category": "Entertainment",
+  "date": "2025-01-29",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf23"
+  },
+  "description": "Laundry Detergent",
+  "amount": 14.99,
+  "category": "Household",
+  "date": "2025-01-30",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf24"
+  },
+  "description": "Monthly Metro Pass",
+  "amount": 56,
+  "category": "Transportation",
+  "date": "2025-01-31",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf25"
+  },
+  "description": "Adobe Creative Cloud",
+  "amount": 29.99,
+  "category": "Software Subscriptions",
+  "date": "2025-02-01",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf26"
+  },
+  "description": "Valentine's Day Flowers",
+  "amount": 45,
+  "category": "Gifts",
+  "date": "2025-02-02",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf27"
+  },
+  "description": "Dinner at Italian Restaurant",
+  "amount": 68.75,
+  "category": "Dining Out",
+  "date": "2025-02-03",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf28"
+  },
+  "description": "New Winter Coat",
+  "amount": 129.99,
+  "category": "Clothing",
+  "date": "2025-02-04",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf29"
+  },
+  "description": "Car Insurance Payment",
+  "amount": 112.5,
+  "category": "Insurance",
+  "date": "2025-02-05",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf2a"
+  },
+  "description": "Weekly Farmers Market",
+  "amount": 34.2,
+  "category": "Groceries",
+  "date": "2025-02-06",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf2b"
+  },
+  "description": "Netflix Monthly Subscription",
+  "amount": 15.99,
+  "category": "Entertainment",
+  "date": "2025-02-07",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf2c"
+  },
+  "description": "Dog Food",
+  "amount": 42.99,
+  "category": "Pets",
+  "date": "2025-02-08",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf2d"
+  },
+  "description": "New Bluetooth Headphones",
+  "amount": 89.99,
+  "category": "Electronics",
+  "date": "2025-02-09",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf2e"
+  },
+  "description": "Weekend Getaway Hotel",
+  "amount": 187.5,
+  "category": "Travel",
+  "date": "2025-02-10",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf2f"
+  },
+  "description": "Gas Station Snacks",
+  "amount": 8.45,
+  "category": "Food",
+  "date": "2025-02-11",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf30"
+  },
+  "description": "Monthly Phone Bill",
+  "amount": 65,
+  "category": "Utilities",
+  "date": "2025-02-12",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf31"
+  },
+  "description": "Office Supplies",
+  "amount": 23.89,
+  "category": "Work Expenses",
+  "date": "2025-02-13",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf32"
+  },
+  "description": "Valentine's Day Gift",
+  "amount": 75,
+  "category": "Gifts",
+  "date": "2025-02-14",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf33"
+  },
+  "description": "Car Battery Replacement",
+  "amount": 145.99,
+  "category": "Auto Maintenance",
+  "date": "2025-02-15",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf34"
+  },
+  "description": "Grocery Delivery",
+  "amount": 92.34,
+  "category": "Groceries",
+  "date": "2025-02-16",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf35"
+  },
+  "description": "Movie Night Snacks",
+  "amount": 18.75,
+  "category": "Entertainment",
+  "date": "2025-02-17",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf36"
+  },
+  "description": "New Yoga Mat",
+  "amount": 29.99,
+  "category": "Fitness",
+  "date": "2025-02-18",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf37"
+  },
+  "description": "Dentist Visit",
+  "amount": 85,
+  "category": "Healthcare",
+  "date": "2025-02-19",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf38"
+  },
+  "description": "Amazon Kindle Book",
+  "amount": 12.99,
+  "category": "Education",
+  "date": "2025-02-20",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf39"
+  },
+  "description": "Car Wash Membership",
+  "amount": 25,
+  "category": "Auto Maintenance",
+  "date": "2025-02-21",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf3a"
+  },
+  "description": "New Desk Lamp",
+  "amount": 39.99,
+  "category": "Furniture",
+  "date": "2025-02-22",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf3b"
+  },
+  "description": "Sushi Dinner",
+  "amount": 54.3,
+  "category": "Dining Out",
+  "date": "2025-02-23",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf3c"
+  },
+  "description": "Monthly Gym Membership",
+  "amount": 29.99,
+  "category": "Fitness",
+  "date": "2025-02-24",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf3d"
+  },
+  "description": "New Winter Boots",
+  "amount": 99.99,
+  "category": "Clothing",
+  "date": "2025-02-25",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf3e"
+  },
+  "description": "Electric Bill Payment",
+  "amount": 72.45,
+  "category": "Utilities",
+  "date": "2025-02-26",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf3f"
+  },
+  "description": "Prescription Medication",
+  "amount": 15,
+  "category": "Healthcare",
+  "date": "2025-02-27",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf40"
+  },
+  "description": "New Bluetooth Speaker",
+  "amount": 79.99,
+  "category": "Electronics",
+  "date": "2025-02-28",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf41"
+  },
+  "description": "March Netflix Subscription",
+  "amount": 15.99,
+  "category": "Entertainment",
+  "date": "2025-03-01",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf42"
+  },
+  "description": "Weekend Brunch",
+  "amount": 32.5,
+  "category": "Dining Out",
+  "date": "2025-03-02",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf43"
+  },
+  "description": "New Office Chair",
+  "amount": 159.99,
+  "category": "Furniture",
+  "date": "2025-03-03",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf44"
+  },
+  "description": "Car Tire Rotation",
+  "amount": 35,
+  "category": "Auto Maintenance",
+  "date": "2025-03-04",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf45"
+  },
+  "description": "Monthly Haircut",
+  "amount": 35,
+  "category": "Personal Care",
+  "date": "2025-03-05",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf46"
+  },
+  "description": "Grocery Shopping",
+  "amount": 87.34,
+  "category": "Groceries",
+  "date": "2025-03-06",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf47"
+  },
+  "description": "New Coffee Maker",
+  "amount": 59.99,
+  "category": "Appliances",
+  "date": "2025-03-07",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf48"
+  },
+  "description": "Weekend Movie Tickets",
+  "amount": 24.5,
+  "category": "Entertainment",
+  "date": "2025-03-08",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf49"
+  },
+  "description": "Gas Station Fill-up",
+  "amount": 38.75,
+  "category": "Transportation",
+  "date": "2025-03-09",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf4a"
+  },
+  "description": "New Jeans",
+  "amount": 49.99,
+  "category": "Clothing",
+  "date": "2025-03-10",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf4b"
+  },
+  "description": "Dinner with Friends",
+  "amount": 62.4,
+  "category": "Dining Out",
+  "date": "2025-03-11",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf4c"
+  },
+  "description": "Monthly Water Bill",
+  "amount": 42.75,
+  "category": "Utilities",
+  "date": "2025-03-12",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf4d"
+  },
+  "description": "New Plant for Home",
+  "amount": 24.99,
+  "category": "Home Decor",
+  "date": "2025-03-13",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf4e"
+  },
+  "description": "Car Wash",
+  "amount": 12,
+  "category": "Auto Maintenance",
+  "date": "2025-03-14",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf4f"
+  },
+  "description": "Starbucks Coffee",
+  "amount": 5.75,
+  "category": "Dining Out",
+  "date": "2025-03-15",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf50"
+  },
+  "description": "New Running Shoes",
+  "amount": 89.99,
+  "category": "Fitness",
+  "date": "2025-03-16",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf51"
+  },
+  "description": "Monthly Internet Bill",
+  "amount": 64.99,
+  "category": "Utilities",
+  "date": "2025-03-17",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf52"
+  },
+  "description": "Grocery Delivery",
+  "amount": 92.34,
+  "category": "Groceries",
+  "date": "2025-03-18",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf53"
+  },
+  "description": "New Bluetooth Earbuds",
+  "amount": 79.99,
+  "category": "Electronics",
+  "date": "2025-03-19",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf54"
+  },
+  "description": "Dinner at Steakhouse",
+  "amount": 78.5,
+  "category": "Dining Out",
+  "date": "2025-03-20",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf55"
+  },
+  "description": "Monthly Parking Fee",
+  "amount": 75,
+  "category": "Transportation",
+  "date": "2025-03-21",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf56"
+  },
+  "description": "New Desk Organizer",
+  "amount": 29.99,
+  "category": "Office Supplies",
+  "date": "2025-03-22",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf57"
+  },
+  "description": "Haircut",
+  "amount": 35,
+  "category": "Personal Care",
+  "date": "2025-03-23",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf58"
+  },
+  "description": "Car Oil Change",
+  "amount": 39.95,
+  "category": "Auto Maintenance",
+  "date": "2025-03-24",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf59"
+  },
+  "description": "Monthly Phone Bill",
+  "amount": 65,
+  "category": "Utilities",
+  "date": "2025-03-25",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf5a"
+  },
+  "description": "New Yoga Mat",
+  "amount": 29.99,
+  "category": "Fitness",
+  "date": "2025-03-26",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf5b"
+  },
+  "description": "Dinner at Mexican Restaurant",
+  "amount": 45.6,
+  "category": "Dining Out",
+  "date": "2025-03-27",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf5c"
+  },
+  "description": "New Winter Jacket",
+  "amount": 129.99,
+  "category": "Clothing",
+  "date": "2025-03-28",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf5d"
+  },
+  "description": "Monthly Electric Bill",
+  "amount": 78.34,
+  "category": "Utilities",
+  "date": "2025-03-29",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf5e"
+  },
+  "description": "Weekend Grocery Shopping",
+  "amount": 67.89,
+  "category": "Groceries",
+  "date": "2025-03-30",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf5f"
+  },
+  "description": "New Smart Watch",
+  "amount": 199.99,
+  "category": "Electronics",
+  "date": "2025-03-31",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf60"
+  },
+  "description": "April Netflix Subscription",
+  "amount": 15.99,
+  "category": "Entertainment",
+  "date": "2025-04-01",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf61"
+  },
+  "description": "Car Wash",
+  "amount": 120,
+  "category": "Auto Maintenance",
+  "date": "2025-04-02",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf62"
+  },
+  "description": "Dinner with Family",
+  "amount": 85.25,
+  "category": "Dining Out",
+  "date": "2025-04-03",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf63"
+  },
+  "description": "New Desk Chair",
+  "amount": 149.99,
+  "category": "Furniture",
+  "date": "2025-04-04",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf64"
+  },
+  "description": "Monthly Gym Membership",
+  "amount": 29.99,
+  "category": "Fitness",
+  "date": "2025-04-05",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf65"
+  },
+  "description": "Grocery Shopping",
+  "amount": 87.45,
+  "category": "Groceries",
+  "date": "2025-04-06",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf66"
+  },
+  "description": "New Bluetooth Speaker",
+  "amount": 79.99,
+  "category": "Electronics",
+  "date": "2025-04-07",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf67"
+  },
+  "description": "Monthly Haircut",
+  "amount": 35,
+  "category": "Personal Care",
+  "date": "2025-04-08",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf68"
+  },
+  "description": "Car Tire Replacement",
+  "amount": 145.99,
+  "category": "Auto Maintenance",
+  "date": "2025-04-09",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf69"
+  },
+  "description": "Dinner at Italian Restaurant",
+  "amount": 68.75,
+  "category": "Dining Out",
+  "date": "2025-04-10",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf6a"
+  },
+  "description": "Monthly Water Bill",
+  "amount": 42.75,
+  "category": "Utilities",
+  "date": "2025-04-11",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf6b"
+  },
+  "description": "New Plant for Home",
+  "amount": 24.99,
+  "category": "Home Decor",
+  "date": "2025-04-12",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf6d"
+  },
+  "description": "Starbucks Coffee",
+  "amount": 5.75,
+  "category": "Dining Out",
+  "date": "2025-04-14",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf6e"
+  },
+  "description": "New Running Shoes",
+  "amount": 89.99,
+  "category": "Fitness",
+  "date": "2025-04-15",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf70"
+  },
+  "description": "Grocery Delivery",
+  "amount": 92.34,
+  "category": "Groceries",
+  "date": "2025-04-17",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf71"
+  },
+  "description": "New Bluetooth Earbuds",
+  "amount": 79.99,
+  "category": "Electronics",
+  "date": "2025-04-18",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf72"
+  },
+  "description": "Dinner at Steakhouse",
+  "amount": 78.5,
+  "category": "Dining Out",
+  "date": "2025-04-19",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "6867c8f0437efcdbfb66cf73"
+  },
+  "description": "Software subscription",
+  "amount": 232,
+  "category": "Software Subscriptions",
+  "date": "2025-04-20",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  }
+},
+{
+  "_id": {
+    "$oid": "686a57b98c8946d24b6055ef"
+  },
+  "description": "pen",
+  "amount": 8000,
+  "category": "Office Supplies",
+  "date": "2025-07-06",
+  "userId": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  },
+  "__v": 0
+}]

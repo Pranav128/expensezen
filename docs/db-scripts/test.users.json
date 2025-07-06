@@ -1,0 +1,9 @@
+[{
+  "_id": {
+    "$oid": "6867a90bf745ad624027b1e6"
+  },
+  "email": "pranavpisal2528@gmail.com",
+  "password": "$2a$10$QamUSFzVc.PlwsL4X81eOO49dSnIzaaTAUDiJddeaFCsFIY9mtvC.",
+  "__v": 0,
+  "profilePicture": "/uploads/profile-pictures/6867a90bf745ad624027b1e6-1751803114907-unnamed.jpg"
+}]
