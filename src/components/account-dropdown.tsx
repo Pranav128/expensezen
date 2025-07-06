@@ -72,20 +72,16 @@ export default function AccountDropdown() {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-10 w-10 rounded-full">
             <Avatar className="h-10 w-10">
-              {user.profilePicture && (
-                <AvatarImage asChild>
-                  <Image
-                    src={user.profilePicture}
-                    alt="User profile picture"
-                    width={40}
-                    height={40}
-                    className="object-cover"
-                  />
-                </AvatarImage>
+              {user.profilePicture ? (
+                <AvatarImage
+                  src={user.profilePicture}
+                  alt="User Profile Picture"
+                />
+              ) : (
+                <AvatarFallback>
+                  {getInitials(user.email)}
+                </AvatarFallback>
               )}
-              <AvatarFallback className="bg-primary text-primary-foreground font-bold">
-                {getInitials(user.email)}
-              </AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
