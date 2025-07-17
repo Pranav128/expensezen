@@ -6,7 +6,7 @@ ExpenseZen is a modern, intuitive, and secure web application designed to help y
 
 ## Live Demo
 
-**[Access the Live Demo](https://your-live-demo-url.com)** &nbsp; 
+**[Access the Live Demo](https://expense-tracker-eight-flax.vercel.app/)** &nbsp; 
 
 ---
 
@@ -81,7 +81,7 @@ Follow these instructions to get a local copy up and running.
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/Pranav128/expense.git
+    git clone https://github.com/Pranav128/expensezen.git
     cd expensezen
     ```
 
