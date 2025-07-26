@@ -11,3 +11,13 @@ export interface User {
   email: string;
   profilePicture?: string;
 }
+
+export type ExpenseCategory =
+  | 'Housing'
+  | 'Transportation'
+  | 'Food'
+  | 'Utilities'
+  | 'Insurance'
+  | 'Healthcare'
+  | 'Saving & Investing'
+  | 'Personal Spending';

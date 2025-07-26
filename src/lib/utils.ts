@@ -14,8 +14,16 @@ async function handleResponse(response: Response) {
   return data;
 }
 
-export async function fetchExpenses(token: string): Promise<Expense[]> {
-  const response = await fetch('/api/expenses', {
+export async function fetchExpenses(token: string, month?: Date): Promise<Expense[]> {
+  let url = '/api/expenses';
+  
+  if (month) {
+    const monthNum = month.getMonth();
+    const year = month.getFullYear();
+    url += `?month=${monthNum}&year=${year}`;
+  }
+  
+  const response = await fetch(url, {
     headers: { 'Authorization': `Bearer ${token}` }
   });
   return handleResponse(response);

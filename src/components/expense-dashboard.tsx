@@ -11,12 +11,13 @@ import { Skeleton } from './ui/skeleton';
 interface ExpenseDashboardProps {
   expenses: Expense[];
   isLoading: boolean;
+  selectedMonth?: Date;
 }
 
 interface FilterOptions {
   startDate: string | null;
-  expenses: Expense[];
-  isLoading: boolean;
+  endDate: string | null;
+  category: ExpenseCategory | 'All';
 }
 
 const chartColors = [
@@ -27,7 +28,7 @@ const chartColors = [
   'hsl(var(--chart-5))',
 ];
 
-export default function ExpenseDashboard({ expenses, isLoading }: ExpenseDashboardProps) {
+export default function ExpenseDashboard({ expenses, isLoading, selectedMonth }: ExpenseDashboardProps) {
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
     startDate: null,
     endDate: null,
@@ -58,19 +59,18 @@ export default function ExpenseDashboard({ expenses, isLoading }: ExpenseDashboa
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value);
 
-    const monthlyTotals = filteredExpenses.reduce((acc, expense) => {
-      const month = new Date(expense.date).toLocaleString('default', { month: 'short' });
-      acc[month] = (acc[month] || 0) + expense.amount;
+    // For monthly view, show daily spending within the month
+    const dailyTotals = filteredExpenses.reduce((acc, expense) => {
+      const day = new Date(expense.date).getDate().toString();
+      acc[day] = (acc[day] || 0) + expense.amount;
       return acc;
     }, {} as Record<string, number>);
 
-    const monthOrder = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    const monthlyData = Object.entries(monthlyTotals)
-      .map(([name, total]) => ({ name, total }))
-      .sort((a, b) => monthOrder.indexOf(a.name) - monthOrder.indexOf(b.name));
-    const totalExpenses = expenses.reduce((acc, curr) => acc + curr.amount, 0);
-    const averageExpense = expenses.length ? totalExpenses / expenses.length : 0;
+    const monthlyData = Object.entries(dailyTotals)
+      .map(([name, total]) => ({ name: `Day ${name}`, total }))
+      .sort((a, b) => parseInt(a.name.split(' ')[1]) - parseInt(b.name.split(' ')[1]));
+    const totalExpenses = filteredExpenses.reduce((acc, curr) => acc + curr.amount, 0);
+    const averageExpense = filteredExpenses.length ? totalExpenses / filteredExpenses.length : 0;
       
     return { categoryData, monthlyData, totalExpenses, averageExpense };
   }, [expenses]);
@@ -125,26 +125,28 @@ export default function ExpenseDashboard({ expenses, isLoading }: ExpenseDashboa
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium font-headline">Total Expenses</CardTitle>
+          <CardTitle className="text-sm font-medium font-headline">Monthly Total</CardTitle>
           <IndianRupee className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-3xl font-bold">
             ₹{totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
-          <p className="text-xs text-muted-foreground">Across all recorded transactions</p>
+          <p className="text-xs text-muted-foreground">
+            {selectedMonth ? `For ${selectedMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}` : 'Current month expenses'}
+          </p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium font-headline">Average Transaction</CardTitle>
+          <CardTitle className="text-sm font-medium font-headline">Monthly Average</CardTitle>
           <TrendingUp className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-3xl font-bold">
             ₹{averageExpense.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
-          <p className="text-xs text-muted-foreground">Average value per expense</p>
+          <p className="text-xs text-muted-foreground">Average per transaction this month</p>
         </CardContent>
       </Card>
       <Card>
@@ -167,7 +169,7 @@ export default function ExpenseDashboard({ expenses, isLoading }: ExpenseDashboa
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium font-headline">Monthly Spending</CardTitle>
+          <CardTitle className="text-sm font-medium font-headline">Daily Spending</CardTitle>
           <BarChart2 className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent className="h-[200px] p-0">

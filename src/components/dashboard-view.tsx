@@ -5,25 +5,42 @@ import type { Expense } from '@/types';
 import ExpenseDashboard from '@/components/expense-dashboard';
 import ExpenseForm from '@/components/expense-form';
 import ExpenseList from '@/components/expense-list';
+import MonthSelector from '@/components/month-selector';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { addExpense, fetchExpenses, updateExpense, deleteExpense } from '@/lib/utils';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import { startOfMonth, endOfMonth, isWithinInterval } from 'date-fns';
 
 export default function DashboardView() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
 
   const { token, logout } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
 
+  // Initialize selected month from localStorage or default to current month
+  useEffect(() => {
+    const savedMonth = localStorage.getItem('selectedMonth');
+    if (savedMonth) {
+      const parsedMonth = new Date(savedMonth);
+      // Only use saved month if it's valid and not current month (to always default to current on refresh)
+      const currentMonth = new Date();
+      if (parsedMonth.getMonth() !== currentMonth.getMonth() ||
+          parsedMonth.getFullYear() !== currentMonth.getFullYear()) {
+        setSelectedMonth(parsedMonth);
+      }
+    }
+  }, []);
+
   const getExpenses = useCallback(async () => {
     if (!token) return;
     setIsLoading(true);
     try {
-      const data: Expense[] = await fetchExpenses(token);
+      const data: Expense[] = await fetchExpenses(token, selectedMonth);
       setExpenses(data);
     } catch (error) {
       console.error("Failed to fetch expenses:", error);
@@ -32,7 +49,7 @@ export default function DashboardView() {
     } finally {
       setIsLoading(false);
     }
-  }, [token, toast]);
+  }, [token, selectedMonth, toast]);
 
   useEffect(() => {
     getExpenses();
@@ -84,13 +101,53 @@ export default function DashboardView() {
     }
   };
   
+  // Since we're now filtering on the API level, we can use expenses directly
+  // But keep the filtering logic as a fallback for any edge cases
+  const monthlyExpenses = useMemo(() => {
+    const monthStart = startOfMonth(selectedMonth);
+    const monthEnd = endOfMonth(selectedMonth);
+    
+    return expenses.filter(expense => {
+      const expenseDate = new Date(expense.date);
+      return isWithinInterval(expenseDate, { start: monthStart, end: monthEnd });
+    });
+  }, [expenses, selectedMonth]);
+
   const allCategories = useMemo(() => {
     return [...new Set(expenses.map(e => e.category))].sort();
   }, [expenses]);
 
+  const handleMonthChange = (month: Date) => {
+    setSelectedMonth(month);
+    // Save to localStorage for navigation persistence within session
+    localStorage.setItem('selectedMonth', month.toISOString());
+  };
+
+  const handleCurrentMonth = () => {
+    const currentMonth = new Date();
+    setSelectedMonth(currentMonth);
+    // Remove from localStorage so it defaults to current month on refresh
+    localStorage.removeItem('selectedMonth');
+  };
+
+  // Refetch expenses when month changes
+  useEffect(() => {
+    getExpenses();
+  }, [selectedMonth, getExpenses]);
+
   return (
     <main className="flex-1 space-y-6 p-4 sm:p-6 md:p-8">
-      <ExpenseDashboard expenses={expenses} isLoading={isLoading} />
+      <MonthSelector
+        selectedMonth={selectedMonth}
+        onMonthChange={handleMonthChange}
+        onCurrentMonth={handleCurrentMonth}
+      />
+      
+      <ExpenseDashboard
+        expenses={monthlyExpenses}
+        isLoading={isLoading}
+        selectedMonth={selectedMonth}
+      />
       
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         <div className="lg:col-span-2">
@@ -104,9 +161,9 @@ export default function DashboardView() {
             </Card>
         </div>
         <div className="lg:col-span-3">
-            <ExpenseList 
-              expenses={expenses} 
-              isLoading={isLoading} 
+            <ExpenseList
+              expenses={monthlyExpenses}
+              isLoading={isLoading}
               categories={allCategories}
               onUpdateExpense={handleUpdateExpense}
               onDeleteExpense={handleDeleteExpense}

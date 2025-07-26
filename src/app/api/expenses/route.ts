@@ -41,21 +41,37 @@ export async function GET(request: NextRequest) {
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
     const category = searchParams.get('category');
+    const month = searchParams.get('month');
+    const year = searchParams.get('year');
 
     const filter: any = { userId: userId };
-    if (startDate && endDate) {
+    
+    // Handle month/year filtering for better performance
+    if (month && year) {
+      const monthNum = parseInt(month);
+      const yearNum = parseInt(year);
+      const monthStart = new Date(yearNum, monthNum, 1);
+      const monthEnd = new Date(yearNum, monthNum + 1, 0, 23, 59, 59, 999);
+      
+      filter.date = {
+        $gte: monthStart.toISOString().split('T')[0],
+        $lte: monthEnd.toISOString().split('T')[0],
+      };
+    } else if (startDate && endDate) {
       filter.date = {
         $gte: new Date(startDate),
         $lte: new Date(endDate),
       };
     }
+    
     if (category && category !== 'All') {
       filter.category = category;
     }
 
-    // Optimize query: select only necessary fields
-    // const expenses = await Expense.find(filter).select('description amount category date');
-    const expenses = await Expense.find(filter);
+    // Optimize query: select only necessary fields and sort by date descending
+    const expenses = await Expense.find(filter)
+      .select('description amount category date')
+      .sort({ date: -1 });
     return NextResponse.json(expenses);
 
   } catch (error: any) {
