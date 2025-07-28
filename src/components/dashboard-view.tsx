@@ -150,7 +150,7 @@ export default function DashboardView() {
       />
       
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 order-2 lg:order-1">
             <Card className="h-full">
                 <CardHeader>
                     <CardTitle className="font-headline">Add New Expense</CardTitle>
@@ -160,7 +160,7 @@ export default function DashboardView() {
                 </CardContent>
             </Card>
         </div>
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-3 order-1 lg:order-2 mb-6 lg:mb-0">
             <ExpenseList
               expenses={monthlyExpenses}
               isLoading={isLoading}

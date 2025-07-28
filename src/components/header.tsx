@@ -3,13 +3,17 @@
 import Link from "next/link";
 import AccountDropdown from "./account-dropdown";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, logout } = useAuth();
+  const router = useRouter();
+  const { toast } = useToast();
 
   return (
     <header className="py-3 sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100">
@@ -119,22 +123,51 @@ const Header: React.FC = () => {
               >
                 Help/Support
               </Link>
-              {!isLoading && !user && (
+              {!isLoading && (
                 <>
-                  <Link 
-                    href="/login" 
-                    className="text-gray-600 hover:text-indigo-600 px-4 py-3 rounded-lg hover:bg-gray-50 font-medium transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Login
-                  </Link>
-                  <Link 
-                    href="/signup" 
-                    className="px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity text-center shadow-sm"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Sign Up
-                  </Link>
+                  {user ? (
+                    <>
+                      <Link 
+                        href="/dashboard" 
+                        className="text-gray-600 hover:text-indigo-600 px-4 py-3 rounded-lg hover:bg-gray-50 font-medium transition-colors"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                      <button 
+                        className="mt-2 w-full px-4 py-3 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition-colors text-center flex items-center justify-center gap-2"
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          logout();
+                          toast({
+                            title: "Logged out successfully",
+                            description: "You have been logged out of your account."
+                          });
+                          router.push('/login');
+                        }}
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link 
+                        href="/login" 
+                        className="text-gray-600 hover:text-indigo-600 px-4 py-3 rounded-lg hover:bg-gray-50 font-medium transition-colors"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Login
+                      </Link>
+                      <Link 
+                        href="/signup" 
+                        className="px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity text-center shadow-sm"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Sign Up
+                      </Link>
+                    </>
+                  )}
                 </>
               )}
             </nav>

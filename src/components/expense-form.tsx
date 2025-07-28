@@ -150,10 +150,19 @@ export default function ExpenseForm({ onSubmit, expenseToEdit, onFinished }: Exp
                 <FormControl>
                   <Input placeholder="e.g., Food" {...field} />
                 </FormControl>
-                <Button type="button" variant="outline" size="icon" onClick={handleSuggestCategory} disabled={isSuggesting} aria-label="Suggest Category">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  size="icon" 
+                  onClick={handleSuggestCategory} 
+                  disabled={isSuggesting} 
+                  aria-label="Suggest Category"
+                  title="Suggest category using AI"
+                >
                   {isSuggesting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                 </Button>
               </div>
+              <p className="text-xs text-muted-foreground mt-1">Click the sparkle icon to suggest a category using AI</p>
               <FormMessage />
             </FormItem>
           )}

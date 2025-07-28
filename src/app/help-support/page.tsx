@@ -20,6 +20,11 @@ const HelpSupportPage: React.FC = () => {
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [submitStatus, setSubmitStatus] = React.useState<{
+    success?: boolean;
+    message?: string;
+  }>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -29,13 +34,42 @@ const HelpSupportPage: React.FC = () => {
     }));
   };
 
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Support request submitted', formData);
-    // Reset form
-    setFormData({ name: '', email: '', message: '' });
-    // Show success message
-    alert('Thank you for your message! Our team will get back to you soon.');
+    setIsSubmitting(true);
+    setSubmitStatus({});
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setSubmitStatus({
+          success: true,
+          message: 'Thank you for your message! Our team will get back to you soon.',
+        });
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setSubmitStatus({
+          success: false,
+          message: data.error || 'Something went wrong. Please try again.',
+        });
+      }
+    } catch (error) {
+      setSubmitStatus({
+        success: false,
+        message: 'Failed to send message. Please try again later.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const faqs = [
@@ -239,11 +273,50 @@ const HelpSupportPage: React.FC = () => {
                     required
                   />
                 </div>
+                {submitStatus.message && (
+                  <div className={`p-5 rounded-lg ${submitStatus.success ? 'bg-gradient-to-r from-green-50 to-teal-50 border-l-4 border-green-500' : 'bg-gradient-to-r from-red-50 to-pink-50 border-l-4 border-red-500'} transition-all duration-500 animate-fadeIn`}>
+                    <div className="flex items-center">
+                      {submitStatus.success ? (
+                        <svg className="h-6 w-6 text-green-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      ) : (
+                        <svg className="h-6 w-6 text-red-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      )}
+                      <div>
+                        <h3 className={`font-semibold text-lg ${submitStatus.success ? 'text-green-800' : 'text-red-800'}`}>
+                          {submitStatus.success ? 'Message Sent!' : 'Error'}
+                        </h3>
+                        <p className={`mt-1 text-sm ${submitStatus.success ? 'text-green-700' : 'text-red-700'}`}>
+                          {submitStatus.message}
+                        </p>
+                        {submitStatus.success && (
+                          <p className="mt-2 text-sm text-green-700">
+                            We've also sent you a confirmation email. Please check your inbox.
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <Button 
                   type="submit" 
-                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all duration-300"
+                  disabled={isSubmitting}
+                  className={`w-full bg-gradient-to-r from-blue-600 to-indigo-600 transition-all duration-300 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:from-blue-700 hover:to-indigo-700'}`}
                 >
-                  Submit Request
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Sending...
+                    </>
+                  ) : (
+                    'Submit Request'
+                  )}
                 </Button>
               </form>
             </div>

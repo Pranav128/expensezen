@@ -1,5 +1,5 @@
 'use client';
-import DashboardView from "@/components/dashboard-view";
+import EnhancedDashboard from "@/components/enhanced-dashboard";
 import { useAuth } from "@/hooks/use-auth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -36,5 +36,5 @@ export default function Home() {
     )
   }
 
-  return <DashboardView />;
+  return <EnhancedDashboard />;
 }

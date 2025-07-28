@@ -99,7 +99,15 @@ Follow these instructions to get a local copy up and running.
 
     # A strong, secret key for signing JWTs
     JWT_SECRET="your_super_secret_jwt_key_here"
+    
+    # Email Configuration for Contact Forms
+    EMAIL_SERVICE="gmail" # or another service like 'outlook', 'yahoo', etc.
+    EMAIL_USER="your-email@gmail.com"
+    EMAIL_PASSWORD="your-app-password" # For Gmail, use an App Password
+    CONTACT_EMAIL="your-contact-email@gmail.com" # Where to receive contact form submissions
     ```
+    
+    **Note for Gmail users:** If you're using Gmail, you'll need to use an "App Password" instead of your regular password. You can generate one at https://myaccount.google.com/apppasswords (requires 2-Step Verification to be enabled).
 
 4.  **Run the development server:**
     ```sh

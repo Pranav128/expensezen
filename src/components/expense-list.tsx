@@ -98,7 +98,9 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
 
     if (sortConfig.key) {
       filtered.sort((a, b) => {
+        // @ts-ignore
         const aValue = a[sortConfig.key];
+        // @ts-ignore
         const bValue = b[sortConfig.key];
         
         if (aValue === undefined || bValue === undefined) return 0;
@@ -164,68 +166,81 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
         <CardHeader>
           <CardTitle className="font-headline">Transaction History</CardTitle>
           <CardDescription>View, filter, and manage your expenses.</CardDescription>
-          <div className="mt-4 flex flex-col md:flex-row gap-2 items-center flex-wrap">
-            <Input
-              placeholder="Filter description..."
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              className="w-full md:w-auto md:flex-1"
-            />
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-full md:w-[180px]">
-                <SelectValue placeholder="Category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
-                {categories.map((cat) => (
-                  <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button id="date" variant={"outline"} className="w-full md:w-auto justify-start text-left font-normal">
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {dateRange?.from ? (
-                    dateRange.to ? (
-                      <> {format(dateRange.from, "LLL dd, y")} - {format(dateRange.to, "LLL dd, y")} </>
+          <div className="mt-4 flex flex-col gap-3">
+            <div className="flex flex-col sm:flex-row gap-2 items-center">
+              <Input
+                placeholder="Filter description..."
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                className="w-full sm:flex-1"
+              />
+              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                <SelectTrigger className="w-full sm:w-[180px]">
+                  <SelectValue placeholder="Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2 items-center">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button id="date" variant={"outline"} className="w-full justify-start text-left font-normal">
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {dateRange?.from ? (
+                      dateRange.to ? (
+                        <> {format(dateRange.from, "LLL dd, y")} - {format(dateRange.to, "LLL dd, y")} </>
+                      ) : (
+                        format(dateRange.from, "LLL dd, y")
+                      )
                     ) : (
-                      format(dateRange.from, "LLL dd, y")
-                    )
-                  ) : (
-                    <span>Pick a date range</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar 
-                  mode="range" 
-                  selected={dateRange} 
-                  onSelect={setDateRange} 
-                  numberOfMonths={2} 
-                />
-              </PopoverContent>
-            </Popover>
-            <Button variant="ghost" size="icon" onClick={clearFilters}>
-              <FilterX className="h-4 w-4" />
-            </Button>
+                      <span>Pick a date range</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar 
+                    mode="range" 
+                    selected={dateRange} 
+                    onSelect={setDateRange} 
+                    numberOfMonths={1} 
+                    className="sm:hidden"
+                  />
+                  <Calendar 
+                    mode="range" 
+                    selected={dateRange} 
+                    onSelect={setDateRange} 
+                    numberOfMonths={2}
+                    className="hidden sm:block" 
+                  />
+                </PopoverContent>
+              </Popover>
+              <Button variant="outline" onClick={clearFilters} className="w-full sm:w-auto">
+                <FilterX className="h-4 w-4 mr-2" />
+                Clear Filters
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="flex-grow">
-          <div className="rounded-md border">
+          <div className="rounded-md border overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="cursor-pointer hover:bg-secondary" onClick={() => handleSort('description')}>
+                  <TableHead className="cursor-pointer hover:bg-secondary whitespace-nowrap" onClick={() => handleSort('description')}>
                     Description{renderSortArrow('description')}
                   </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-secondary" onClick={() => handleSort('category')}>
+                  <TableHead className="cursor-pointer hover:bg-secondary hidden sm:table-cell" onClick={() => handleSort('category')}>
                     Category{renderSortArrow('category')}
                   </TableHead>
-                  <TableHead className="text-right cursor-pointer hover:bg-secondary" onClick={() => handleSort('amount')}>
+                  <TableHead className="text-right cursor-pointer hover:bg-secondary whitespace-nowrap" onClick={() => handleSort('amount')}>
                     Amount (₹){renderSortArrow('amount')}
                   </TableHead>
-                  <TableHead className="text-right cursor-pointer hover:bg-secondary" onClick={() => handleSort('date')}>
+                  <TableHead className="text-right cursor-pointer hover:bg-secondary hidden sm:table-cell" onClick={() => handleSort('date')}>
                     Date{renderSortArrow('date')}
                   </TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -236,19 +251,29 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
                   Array.from({ length: 10 }).map((_, i) => (
                     <TableRow key={`skeleton-${i}`}>
                       <TableCell><Skeleton className="h-5 w-32" /></TableCell>
-                      <TableCell><Skeleton className="h-5 w-24" /></TableCell>
+                      <TableCell className="hidden sm:table-cell"><Skeleton className="h-5 w-24" /></TableCell>
                       <TableCell className="text-right"><Skeleton className="h-5 w-16 float-right" /></TableCell>
-                      <TableCell className="text-right"><Skeleton className="h-5 w-20 float-right" /></TableCell>
+                      <TableCell className="text-right hidden sm:table-cell"><Skeleton className="h-5 w-20 float-right" /></TableCell>
                       <TableCell className="text-right"><Skeleton className="h-5 w-20 float-right" /></TableCell>
                     </TableRow>
                   ))
                 ) : paginatedExpenses.length > 0 ? (
                   paginatedExpenses.map((expense, index) => (
                     <TableRow key={getUniqueKey(expense, index)} className="hover:bg-secondary/50">
-                      <TableCell className="font-medium max-w-[200px] truncate">
-                        {expense.description}
+                      <TableCell className="font-medium max-w-[150px] truncate">
+                        <div>
+                          {expense.description}
+                          <div className="sm:hidden text-xs text-muted-foreground mt-1">
+                            {format(new Date(expense.date), "MMM dd, yyyy")}
+                          </div>
+                          <div className="sm:hidden mt-1">
+                            <span className="px-2 py-0.5 bg-secondary rounded-full text-xs">
+                              {expense.category}
+                            </span>
+                          </div>
+                        </div>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="hidden sm:table-cell">
                         <span className="px-2 py-1 bg-secondary rounded-full text-xs">
                           {expense.category}
                         </span>
@@ -256,7 +281,7 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
                       <TableCell className="text-right font-mono">
                         {expense.amount.toFixed(2)}
                       </TableCell>
-                      <TableCell className="text-right text-muted-foreground">
+                      <TableCell className="text-right text-muted-foreground hidden sm:table-cell">
                         {format(new Date(expense.date), "MMM dd, yyyy")}
                       </TableCell>
                       <TableCell className="text-right">
@@ -285,8 +310,8 @@ export default function ExpenseList({ expenses, isLoading, categories, onUpdateE
                                   This action cannot be undone. This will permanently delete the expense for "{expense.description}".
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+                                <AlertDialogCancel className="mt-2 sm:mt-0">Cancel</AlertDialogCancel>
                                 <AlertDialogAction onClick={() => onDeleteExpense(expense._id)}>
                                   Delete
                                 </AlertDialogAction>

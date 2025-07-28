@@ -50,6 +50,10 @@ export default function AccountDropdown() {
 
   const handleLogout = () => {
     logout();
+    toast({
+      title: "Logged out successfully",
+      description: "You have been logged out of your account."
+    });
     router.push("/login");
   };
 
