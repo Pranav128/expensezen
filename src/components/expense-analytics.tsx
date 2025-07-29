@@ -177,14 +177,14 @@ export default function ExpenseAnalytics({ expenses, selectedMonth }: ExpenseAna
   return (
     <div className="space-y-6">
       {/* Key Metrics */}
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Daily Average</CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl md:text-2xl font-bold">
               {analytics.frequencyAnalysis.daily.toFixed(1)}
             </div>
             <p className="text-xs text-muted-foreground">transactions per day</p>
@@ -197,7 +197,7 @@ export default function ExpenseAnalytics({ expenses, selectedMonth }: ExpenseAna
             <Target className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl md:text-2xl font-bold">
               ₹{analytics.frequencyAnalysis.avgTransactionSize.toFixed(0)}
             </div>
             <p className="text-xs text-muted-foreground">per transaction</p>
@@ -210,7 +210,7 @@ export default function ExpenseAnalytics({ expenses, selectedMonth }: ExpenseAna
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl md:text-2xl font-bold">
               ₹{analytics.frequencyAnalysis.largestTransaction.toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">single transaction</p>
@@ -223,7 +223,7 @@ export default function ExpenseAnalytics({ expenses, selectedMonth }: ExpenseAna
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl md:text-2xl font-bold">
               {analytics.categoryAnalysis.length}
             </div>
             <p className="text-xs text-muted-foreground">active categories</p>
@@ -242,10 +242,24 @@ export default function ExpenseAnalytics({ expenses, selectedMonth }: ExpenseAna
             <div className="min-w-[500px] md:min-w-0">
               <ChartContainer config={{}} className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={analytics.weeklyPattern}>
+                  <BarChart data={analytics.weeklyPattern} margin={{ top: 20, right: 20, left: 10, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="day" tick={{ fontSize: 12 }} />
-                    <YAxis tickFormatter={(value) => `₹${value}`} tick={{ fontSize: 12 }} />
+                    <XAxis 
+                      dataKey="day" 
+                      tick={{ fontSize: 12 }} 
+                      tickLine={false} 
+                      axisLine={false}
+                      tickMargin={5}
+                      padding={{ left: 10, right: 10 }}
+                    />
+                    <YAxis 
+                      tickFormatter={(value) => `₹${value}`} 
+                      tick={{ fontSize: 12 }} 
+                      tickLine={false} 
+                      axisLine={false} 
+                      width={45}
+                      dx={5}
+                    />
                     <ChartTooltip 
                       content={({ active, payload, label }) => {
                         if (active && payload && payload.length) {
@@ -265,7 +279,12 @@ export default function ExpenseAnalytics({ expenses, selectedMonth }: ExpenseAna
                         return null;
                       }}
                     />
-                    <Bar dataKey="amount" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                    <Bar 
+                      dataKey="amount" 
+                      fill="hsl(var(--primary))" 
+                      radius={[4, 4, 0, 0]}
+                      barSize={24}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </ChartContainer>

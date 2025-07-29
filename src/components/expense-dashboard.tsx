@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import type { Expense, ExpenseCategory } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from '@/components/ui/chart';
-import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { BarChart2, PieChart as PieChartIcon, TrendingUp, IndianRupee } from 'lucide-react';
 import { Skeleton } from './ui/skeleton';
 
@@ -122,71 +122,143 @@ export default function ExpenseDashboard({ expenses, isLoading, selectedMonth }:
   }
 
   return (
-    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium font-headline">Monthly Total</CardTitle>
-          <IndianRupee className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl sm:text-3xl font-bold">
-            ₹{totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          </div>
-          <p className="text-xs text-muted-foreground">
-            {selectedMonth ? `For ${selectedMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}` : 'Current month expenses'}
-          </p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium font-headline">Monthly Average</CardTitle>
-          <TrendingUp className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl sm:text-3xl font-bold">
-            ₹{averageExpense.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          </div>
-          <p className="text-xs text-muted-foreground">Average per transaction this month</p>
-        </CardContent>
-      </Card>
-      <Card className="sm:col-span-2 lg:col-span-1">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium font-headline">By Category</CardTitle>
-          <PieChartIcon className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent className="flex justify-center items-center h-[200px]">
-          <ChartContainer config={chartConfig} className="mx-auto aspect-square h-full">
-            <PieChart>
-              <Tooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-              <Pie data={categoryData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={40} outerRadius={70} strokeWidth={2}>
-                {categoryData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
-                ))}
-              </Pie>
-            </PieChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
-      <Card className="sm:col-span-2 lg:col-span-1">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium font-headline">Daily Spending</CardTitle>
-          <BarChart2 className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent className="h-[200px] p-0">
-          <ChartContainer config={{}} className="h-full w-full">
-            <BarChart data={monthlyData} margin={{ top: 20, right: 10, left: 0, bottom: 5 }}>
-              <CartesianGrid vertical={false} strokeDasharray="3 3" />
-              <XAxis dataKey="name" tick={{ fontSize: 10 }} tickLine={false} axisLine={false} />
-              <YAxis tickFormatter={(value) => `₹${value}`} tick={{ fontSize: 10 }} tickLine={false} axisLine={false} width={30} />
-              <Tooltip cursor={{ fill: 'hsl(var(--secondary))' }} content={<ChartTooltipContent indicator="dot" />} />
-              <Bar dataKey="total" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
+    <div className="grid gap-4 md:gap-6">
+      {/* Summary Cards - 2 columns on mobile, 4 on larger screens */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium font-headline">Monthly Total</CardTitle>
+            <IndianRupee className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold">
+              ₹{totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {selectedMonth ? `For ${selectedMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}` : 'Current month expenses'}
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium font-headline">Monthly Average</CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold">
+              ₹{averageExpense.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+            </div>
+            <p className="text-xs text-muted-foreground">Average per transaction</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Charts - 1 column on mobile, 2 on larger screens */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card className="overflow-hidden">
+          <CardHeader>
+            <CardTitle className="text-sm font-medium font-headline">By Category</CardTitle>
+          </CardHeader>
+          <CardContent className="overflow-x-auto pb-6">
+            <div className="min-w-[300px] md:min-w-0">
+              <ChartContainer config={chartConfig} className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                  <Tooltip 
+                    cursor={false} 
+                    content={({ active, payload }) => {
+                      if (active && payload && payload.length) {
+                        const data = payload[0].payload;
+                        return (
+                          <div className="bg-background border rounded-lg p-3 shadow-lg">
+                            <p className="font-medium">{data.name}</p>
+                            <p className="text-sm text-muted-foreground">
+                              Amount: ₹{data.value.toLocaleString()}
+                            </p>
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                  <Pie 
+                    data={categoryData} 
+                    dataKey="value" 
+                    nameKey="name" 
+                    cx="50%" 
+                    cy="50%" 
+                    innerRadius={50} 
+                    outerRadius={100} 
+                    strokeWidth={2}
+                  >
+                    {categoryData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
+                    ))}
+                  </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="overflow-hidden">
+          <CardHeader>
+            <CardTitle className="text-sm font-medium font-headline">Daily Spending</CardTitle>
+          </CardHeader>
+          <CardContent className="overflow-x-auto pb-6">
+            <div className="min-w-[500px] md:min-w-0">
+              <ChartContainer config={{}} className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={monthlyData} margin={{ top: 20, right: 20, left: 10, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="name" 
+                    tick={{ fontSize: 12 }} 
+                    tickLine={false} 
+                    axisLine={false}
+                    tickMargin={5}
+                    padding={{ left: 10, right: 10 }}
+                  />
+                  <YAxis 
+                    tickFormatter={(value) => `₹${value}`} 
+                    tick={{ fontSize: 12 }} 
+                    tickLine={false} 
+                    axisLine={false} 
+                    width={45}
+                    dx={5}
+                  />
+                  <Tooltip 
+                    content={({ active, payload, label }) => {
+                      if (active && payload && payload.length) {
+                        const data = payload[0].payload;
+                        return (
+                          <div className="bg-background border rounded-lg p-3 shadow-lg">
+                            <p className="font-medium">{label}</p>
+                            <p className="text-sm text-muted-foreground">
+                              Amount: ₹{data.total.toLocaleString()}
+                            </p>
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                  <Bar 
+                    dataKey="total" 
+                    fill="hsl(var(--primary))" 
+                    radius={[4, 4, 0, 0]}
+                    barSize={24}
+                  />
+                  </BarChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Export Data Section */}
-      <Card className="col-span-1 sm:col-span-2 lg:col-span-4">
+      <Card>
         <CardHeader>
           <CardTitle className="text-sm font-medium font-headline">Export Data</CardTitle>
           <CardDescription>Export your expense data with optional filters.</CardDescription>

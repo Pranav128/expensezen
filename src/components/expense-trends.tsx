@@ -169,13 +169,17 @@ export default function ExpenseTrends({ allExpenses, selectedMonth }: ExpenseTre
                     dataKey="shortMonth" 
                     tick={{ fontSize: 12 }} 
                     tickLine={false} 
-                    axisLine={false} 
+                    axisLine={false}
+                    tickMargin={5}
+                    padding={{ left: 10, right: 10 }}
                   />
                   <YAxis 
                     tickFormatter={(value) => `₹${value.toLocaleString()}`}
                     tick={{ fontSize: 12 }} 
                     tickLine={false} 
-                    axisLine={false} 
+                    axisLine={false}
+                    width={45}
+                    dx={5}
                   />
                   <ChartTooltip 
                     content={({ active, payload, label }) => {

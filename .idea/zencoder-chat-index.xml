@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ai.zencoder.plugin.chat.index">
-    <option name="activeChatId" value="5c2c0a1f-6a00-407b-ad67-538a79dd216f" />
-    <option name="chatMetadata" value="{&quot;5c2c0a1f-6a00-407b-ad67-538a79dd216f&quot;:{&quot;id&quot;:&quot;5c2c0a1f-6a00-407b-ad67-538a79dd216f&quot;,&quot;title&quot;:&quot;Repository Information Overview&quot;,&quot;createdAt&quot;:1753727102576,&quot;updatedAt&quot;:1753729735381,&quot;isNameGenerated&quot;:true,&quot;messageCount&quot;:14,&quot;lastMessagePreview&quot;:&quot;I'll fix the logout functionality in the mobile view. Let's check the current implementation and mak...&quot;}}" />
+    <option name="activeChatId" value="e0a1695f-2a4c-48ef-83c3-cb56a0d973d7" />
+    <option name="chatMetadata" value="{&quot;e0a1695f-2a4c-48ef-83c3-cb56a0d973d7&quot;:{&quot;id&quot;:&quot;e0a1695f-2a4c-48ef-83c3-cb56a0d973d7&quot;,&quot;title&quot;:&quot;TypeScript Error Solution&quot;,&quot;createdAt&quot;:1753767528300,&quot;updatedAt&quot;:1753769083593,&quot;isAgent&quot;:true,&quot;isNameGenerated&quot;:true,&quot;messageCount&quot;:12,&quot;lastMessagePreview&quot;:&quot;I understand you want to make the Daily Spending and By Category charts in the overview section matc...&quot;},&quot;5c2c0a1f-6a00-407b-ad67-538a79dd216f&quot;:{&quot;id&quot;:&quot;5c2c0a1f-6a00-407b-ad67-538a79dd216f&quot;,&quot;title&quot;:&quot;Repository Information Overview&quot;,&quot;createdAt&quot;:1753727102576,&quot;updatedAt&quot;:1753731453553,&quot;isNameGenerated&quot;:true,&quot;messageCount&quot;:18,&quot;lastMessagePreview&quot;:&quot; help fix the mobile view issues in your ExpenseZen application&quot;}}" />
   </component>
 </project>

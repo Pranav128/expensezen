@@ -170,38 +170,38 @@ export default function EnhancedDashboard() {
   }, [selectedMonth, getExpenses]);
 
   return (
-    <main className="flex-1 space-y-6 p-4 sm:p-6 md:p-8">
+    <main className="flex-1 space-y-4 md:space-y-6 p-3 sm:p-6 md:p-8">
       <MonthSelector 
         selectedMonth={selectedMonth}
         onMonthChange={handleMonthChange}
         onCurrentMonth={handleCurrentMonth}
       />
       
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="overview" className="flex items-center gap-2">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 md:space-y-6">
+        <TabsList className="grid w-full grid-cols-5 h-auto">
+          <TabsTrigger value="overview" className="flex items-center justify-center gap-1 px-1 py-2 h-auto">
             <BarChart3 className="h-4 w-4" />
-            <span className="hidden sm:inline">Overview</span>
+            <span className="hidden sm:inline text-xs md:text-sm">Overview</span>
           </TabsTrigger>
-          <TabsTrigger value="trends" className="flex items-center gap-2">
+          <TabsTrigger value="trends" className="flex items-center justify-center gap-1 px-1 py-2 h-auto">
             <TrendingUp className="h-4 w-4" />
-            <span className="hidden sm:inline">Trends</span>
+            <span className="hidden sm:inline text-xs md:text-sm">Trends</span>
           </TabsTrigger>
-          <TabsTrigger value="analytics" className="flex items-center gap-2">
+          <TabsTrigger value="analytics" className="flex items-center justify-center gap-1 px-1 py-2 h-auto">
             <BarChart2 className="h-4 w-4" />
-            <span className="hidden sm:inline">Analytics</span>
+            <span className="hidden sm:inline text-xs md:text-sm">Analytics</span>
           </TabsTrigger>
-          <TabsTrigger value="budget" className="flex items-center gap-2">
+          <TabsTrigger value="budget" className="flex items-center justify-center gap-1 px-1 py-2 h-auto">
             <PiggyBank className="h-4 w-4" />
-            <span className="hidden sm:inline">Budget</span>
+            <span className="hidden sm:inline text-xs md:text-sm">Budget</span>
           </TabsTrigger>
-          <TabsTrigger value="search" className="flex items-center gap-2">
+          <TabsTrigger value="search" className="flex items-center justify-center gap-1 px-1 py-2 h-auto">
             <Search className="h-4 w-4" />
-            <span className="hidden sm:inline">Search</span>
+            <span className="hidden sm:inline text-xs md:text-sm">Search</span>
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-6">
+        <TabsContent value="overview" className="space-y-4 md:space-y-6">
           <ExpenseDashboard 
             expenses={monthlyExpenses} 
             isLoading={isLoading} 
@@ -209,21 +209,21 @@ export default function EnhancedDashboard() {
           />
         </TabsContent>
 
-        <TabsContent value="trends" className="space-y-6">
+        <TabsContent value="trends" className="space-y-4 md:space-y-6">
           <ExpenseTrends 
             allExpenses={allExpenses}
             selectedMonth={selectedMonth}
           />
         </TabsContent>
 
-        <TabsContent value="budget" className="space-y-6">
+        <TabsContent value="budget" className="space-y-4 md:space-y-6">
           <BudgetTracker 
             expenses={monthlyExpenses}
             selectedMonth={selectedMonth}
           />
         </TabsContent>
 
-        <TabsContent value="search" className="space-y-6">
+        <TabsContent value="search" className="space-y-4 md:space-y-6">
           <AdvancedSearch 
             expenses={expenses}
             onFilteredResults={handleFilteredResults}
@@ -237,7 +237,7 @@ export default function EnhancedDashboard() {
           />
         </TabsContent>
 
-        <TabsContent value="analytics" className="space-y-6">
+        <TabsContent value="analytics" className="space-y-4 md:space-y-6">
           <ExpenseAnalytics
             expenses={monthlyExpenses}
             selectedMonth={selectedMonth}
