@@ -130,6 +130,8 @@ export default function DashboardView() {
     localStorage.removeItem('selectedMonth');
   };
 
+
+
   // Refetch expenses when month changes
   useEffect(() => {
     getExpenses();

@@ -5,7 +5,7 @@ import type { Expense, ExpenseCategory } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from '@/components/ui/chart';
 import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
-import { BarChart2, PieChart as PieChartIcon, TrendingUp, IndianRupee } from 'lucide-react';
+import { BarChart2, PieChart as PieChartIcon, TrendingUp, IndianRupee, Receipt, Trophy, Calendar } from 'lucide-react';
 import { Skeleton } from './ui/skeleton';
 
 interface ExpenseDashboardProps {
@@ -36,7 +36,7 @@ export default function ExpenseDashboard({ expenses, isLoading, selectedMonth }:
   });
   const [isExporting, setIsExporting] = useState(false);
 
-  const { categoryData, monthlyData, totalExpenses, averageExpense } = useMemo(() => {
+  const { categoryData, monthlyData, totalExpenses, averageExpense, transactionCount, topCategory, dailyAverage } = useMemo(() => {
     const filteredExpenses = expenses.filter((expense) => {
       const expenseDate = new Date(expense.date);
       const startDate = filterOptions.startDate ? new Date(filterOptions.startDate) : null;
@@ -48,7 +48,15 @@ export default function ExpenseDashboard({ expenses, isLoading, selectedMonth }:
       return dateFilter && categoryFilter;
     });
 
-    if (!filteredExpenses.length) return { categoryData: [], monthlyData: [], totalExpenses: 0, averageExpense: 0 };
+    if (!filteredExpenses.length) return { 
+      categoryData: [], 
+      monthlyData: [], 
+      totalExpenses: 0, 
+      averageExpense: 0, 
+      transactionCount: 0,
+      topCategory: { name: 'No expenses', amount: 0 },
+      dailyAverage: 0
+    };
 
     const categoryTotals = filteredExpenses.reduce((acc, expense) => {
       acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
@@ -71,8 +79,18 @@ export default function ExpenseDashboard({ expenses, isLoading, selectedMonth }:
       .sort((a, b) => parseInt(a.name.split(' ')[1]) - parseInt(b.name.split(' ')[1]));
     const totalExpenses = filteredExpenses.reduce((acc, curr) => acc + curr.amount, 0);
     const averageExpense = filteredExpenses.length ? totalExpenses / filteredExpenses.length : 0;
+    const transactionCount = filteredExpenses.length;
+    
+    // Calculate top spending category
+    const topCategory = categoryData.length > 0 
+      ? { name: categoryData[0].name, amount: categoryData[0].value }
+      : { name: 'No expenses', amount: 0 };
+    
+    // Calculate daily average for the selected month
+    const daysInMonth = selectedMonth ? new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 0).getDate() : 30;
+    const dailyAverage = totalExpenses / daysInMonth;
       
-    return { categoryData, monthlyData, totalExpenses, averageExpense };
+    return { categoryData, monthlyData, totalExpenses, averageExpense, transactionCount, topCategory, dailyAverage };
   }, [expenses]);
   
   const chartConfig = useMemo(() => {
@@ -112,19 +130,26 @@ export default function ExpenseDashboard({ expenses, isLoading, selectedMonth }:
 
   if (isLoading) {
     return (
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Skeleton className="h-[128px]" />
-        <Skeleton className="h-[128px]" />
-        <Skeleton className="h-[280px] md:col-span-1 lg:col-span-1" />
-        <Skeleton className="h-[280px] md:col-span-1 lg:col-span-1" />
+      <div className="grid gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <Skeleton className="h-[128px]" />
+          <Skeleton className="h-[128px]" />
+          <Skeleton className="h-[128px]" />
+          <Skeleton className="h-[128px]" />
+          <Skeleton className="h-[128px]" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Skeleton className="h-[280px]" />
+          <Skeleton className="h-[280px]" />
+        </div>
       </div>
     );
   }
 
   return (
     <div className="grid gap-4 md:gap-6">
-      {/* Summary Cards - 2 columns on mobile, 4 on larger screens */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Summary Cards - 2 columns on mobile, 5 on larger screens */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium font-headline">Monthly Total</CardTitle>
@@ -149,6 +174,54 @@ export default function ExpenseDashboard({ expenses, isLoading, selectedMonth }:
               ₹{averageExpense.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
             </div>
             <p className="text-xs text-muted-foreground">Average per transaction</p>
+          </CardContent>
+        </Card>
+        
+        {/* Transaction Count Card */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium font-headline">Transactions</CardTitle>
+            <Receipt className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold">
+              {transactionCount}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {selectedMonth ? `For ${selectedMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}` : 'This month'}
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Top Category Card */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium font-headline">Top Category</CardTitle>
+            <Trophy className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold">
+              ₹{topCategory.amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {topCategory.name} - Highest spending
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Daily Average Card */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium font-headline">Daily Average</CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold">
+              ₹{dailyAverage.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {selectedMonth ? `Per day in ${selectedMonth.toLocaleDateString('en-US', { month: 'long' })}` : 'Per day this month'}
+            </p>
           </CardContent>
         </Card>
       </div>

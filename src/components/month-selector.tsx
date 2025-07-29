@@ -58,70 +58,143 @@ export default function MonthSelector({ selectedMonth, onMonthChange, onCurrentM
   ];
 
   return (
-    <div className="flex items-center gap-2 p-4 bg-card rounded-lg border">
-      <div className="flex items-center gap-1">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={handlePreviousMonth}
-          className="h-8 w-8"
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
-        
-        <div className="flex items-center gap-2 min-w-[200px]">
-          <Select value={selectedMonth.getMonth().toString()} onValueChange={handleMonthChange}>
-            <SelectTrigger className="w-[120px] h-8">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {monthOptions.map((month) => (
-                <SelectItem key={month.value} value={month.value}>
-                  {month.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          
-          <Select value={selectedMonth.getFullYear().toString()} onValueChange={handleYearChange}>
-            <SelectTrigger className="w-[80px] h-8">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {yearOptions.map((year) => (
-                <SelectItem key={year} value={year.toString()}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+    <div className="p-4 bg-card rounded-lg border">
+      {/* Mobile Layout */}
+      <div className="flex flex-col gap-3 sm:hidden">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handlePreviousMonth}
+              className="h-8 w-8"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            
+            <div className="flex items-center gap-2">
+              <Select value={selectedMonth.getMonth().toString()} onValueChange={handleMonthChange}>
+                <SelectTrigger className="w-[100px] h-8">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {monthOptions.map((month) => (
+                    <SelectItem key={month.value} value={month.value}>
+                      {month.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              
+              <Select value={selectedMonth.getFullYear().toString()} onValueChange={handleYearChange}>
+                <SelectTrigger className="w-[70px] h-8">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {yearOptions.map((year) => (
+                    <SelectItem key={year} value={year.toString()}>
+                      {year}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleNextMonth}
+              className="h-8 w-8"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
         
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={handleNextMonth}
-          className="h-8 w-8"
-        >
-          <ChevronRight className="h-4 w-4" />
-        </Button>
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium">
+            {format(selectedMonth, 'MMMM yyyy')}
+          </span>
+          {!isCurrentMonth && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onCurrentMonth}
+              className="h-8 text-xs"
+            >
+              <Calendar className="h-3 w-3 mr-1" />
+              Current
+            </Button>
+          )}
+        </div>
       </div>
-      
-      <div className="flex items-center gap-2 ml-auto">
-        <span className="text-sm font-medium">
-          {format(selectedMonth, 'MMMM yyyy')}
-        </span>
-        {!isCurrentMonth && (
+
+      {/* Desktop Layout */}
+      <div className="hidden sm:flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <Button
             variant="outline"
-            size="sm"
-            onClick={onCurrentMonth}
-            className="h-8 text-xs"
+            size="icon"
+            onClick={handlePreviousMonth}
+            className="h-8 w-8"
           >
-            <Calendar className="h-3 w-3 mr-1" />
-            Current Month
+            <ChevronLeft className="h-4 w-4" />
           </Button>
-        )}
+          
+          <div className="flex items-center gap-2 min-w-[200px]">
+            <Select value={selectedMonth.getMonth().toString()} onValueChange={handleMonthChange}>
+              <SelectTrigger className="w-[120px] h-8">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {monthOptions.map((month) => (
+                  <SelectItem key={month.value} value={month.value}>
+                    {month.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            
+            <Select value={selectedMonth.getFullYear().toString()} onValueChange={handleYearChange}>
+              <SelectTrigger className="w-[80px] h-8">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {yearOptions.map((year) => (
+                  <SelectItem key={year} value={year.toString()}>
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleNextMonth}
+            className="h-8 w-8"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+        
+        <div className="flex items-center gap-2 ml-auto">
+          <span className="text-sm font-medium">
+            {format(selectedMonth, 'MMMM yyyy')}
+          </span>
+          {!isCurrentMonth && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onCurrentMonth}
+              className="h-8 text-xs"
+            >
+              <Calendar className="h-3 w-3 mr-1" />
+              Current Month
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );
